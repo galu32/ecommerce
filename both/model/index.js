@@ -4,8 +4,11 @@ let models = {};
 
 let getAllModels = () => {
     let fs = require('fs');
-    console.log(__dirname);
-    return fs.readdirSync('./both/model/models');
+    try{
+        return fs.readdirSync('/home/fran/Escritorio/quasarp/both/model/models');
+    }catch{
+        return fs.readdirSync('../../both/model/models');
+    }
 
 };
 models.getAllModels = getAllModels;
@@ -43,7 +46,9 @@ models.syncModels = async () => {
         let query = new Query(desc);
         try{
             desc = await query.fetch();
+            if (desc && desc.code === 'ER_NO_SUCH_TABLE') throw new Error(desc);
         }catch(err){
+            console.log(err,1);
             if (err.toString().includes('ER_NO_SUCH_TABLE')){
                 query._raw = 'CREATE TABLE ' + model + ' (internalId int NOT NULL AUTO_INCREMENT, PRIMARY KEY (internalId));';
                 try {
@@ -73,7 +78,8 @@ models.syncModels = async () => {
         console.log('adding fields');
         try {
             query._raw = alter;
-            await query.fetch();
+            let res = await query.fetch();
+            if (res && res.errno) throw new Error(res);
         } catch (err) {
             console.log(err);
             console.log('error adding fields model ' + model + 'aborting');

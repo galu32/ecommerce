@@ -1,4 +1,3 @@
-let {promisify} = require('util');
 let axios = require('axios');
 let obj = {};
 try {
@@ -71,8 +70,13 @@ const Query = class {
             });
             return data.data;
         }catch{
+            let {promisify} = require('util');
             this._bind = promisify(this._con.query).bind(this._con);
-            return await this._bind(this._raw);
+            try{
+                return await this._bind(this._raw);
+            }catch(e){
+                return e;
+            }
         }
         finally{
             this._select = "SELECT ";

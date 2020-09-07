@@ -38,12 +38,12 @@
 
                 <q-btn v-if='!userobj' color="primary" label="INGRESAR" @click="loginPrompt = !loginPrompt" />
                 <q-btn v-if='userobj' color="primary" label="ADMIN" @click="adminModal = !adminModal" />
-                <q-btn flat round color="white" icon ="shopping_cart" >
+                <q-btn flat round color="white" icon ="shopping_cart" @click='cartModal = cartCounter ? !cartModal : $errorResponse("No cart items")'>
                     <q-badge color="red" floating transparent>
                         {{cartCounter}}
                     </q-badge>
                 </q-btn>
-                <q-btn flat round color="white" icon ="favorite" @click='favoriteCard = !favoriteCard'>
+                <q-btn flat round color="white" icon ="favorite" @click='favoriteCard = favoriteCounter ? !favoriteCard : $errorResponse("No favorite items")'>
                     <q-badge color="red" floating transparent>
                         {{favoriteCounter}}
                     </q-badge>
@@ -80,11 +80,30 @@
                     Categorias
                     <!-- <q-separator /> -->
                 </q-item-label>
-                <EssentialLink
+                <CategoryItem
                     v-for="link in essentialLinks"
                     :key="link.Name"
                     v-bind="link"
                 />
+                <q-separator />
+                <q-item
+                    clickable
+                    tag="a"
+                    to='/contact'
+                >
+                    <q-item-section
+                        avatar
+                    >
+                        <q-icon name='contact_mail' color='primary'/>
+                    </q-item-section>
+
+                    <q-item-section>
+                        <q-item-label class='text-primary'>Contact Us</q-item-label>
+                        <q-item-label caption class='text-grey'>
+                            Contact Us
+                        </q-item-label>
+                    </q-item-section>
+                </q-item>
             </q-list>
         </q-drawer>
 
@@ -94,7 +113,7 @@
         <MainFooter />
 
 
-        <q-dialog v-model="loginPrompt" persistent>
+        <q-dialog v-model="loginPrompt" > <!-- persistent -->
             <q-card style="min-width: 350px">
                 <q-card-section>
                     <div class="text-h6 text-primary">Ingresar..</div>
@@ -102,12 +121,12 @@
 
                 <q-card-section class="q-pt-none">
                     <q-input label='User' dense v-model="user" autofocus @keyup.enter="prompt = false" />
-                    <q-input label='Pass' dense v-model="pass" autofocus @keyup.enter="prompt = false" />
+                    <q-input label='Pass' dense v-model="pass" @keyup.enter="prompt = false" />
                 </q-card-section>
 
                 <q-card-actions align="right" class="text-primary">
                     <q-btn flat label="Cancel" v-close-popup />
-                    <q-btn flat label="Login" @click='login'/>
+                    <q-btn flat label="Login" @click='login' v-close-popup/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -141,12 +160,16 @@
             </q-card> -->
             <FavoriteCard/>
         </q-dialog>
+        <q-dialog v-model="cartModal">
+            <!-- <q-card class="">
+            </q-card> -->
+            <CartModal/>
+        </q-dialog>
 
     </q-layout>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue';
 import MainFooter from 'components/MainFooter.vue';
 import AdminModal from 'components/CRUD/AdminModal.vue';
 
@@ -162,13 +185,14 @@ const _ = require('lodash');
 
 export default {
     name: 'MainLayout',
-    components: { EssentialLink , MainFooter, AdminModal}, //re-name
+    components: {MainFooter, AdminModal}, //re-name
     data () {
         return {
             leftDrawerOpen: false,
             essentialLinks: [],
             loginPrompt: false,
             adminModal: false,
+            cartModal: false,
             user: '',
             pass: '',
             userobj: null,
@@ -205,7 +229,12 @@ export default {
             });
         },
         setSearchModel: function (val) {
-            this.searchModel = val;
+            let i = this.$store.state.items.find(r => r.Name === val);
+            if (!i) return;
+            // console.log(this.$route);
+            // let v = 'item/' + i.Code;
+            // if (this.$route.path.includes('/item/')) v = i.Code;
+            this.$router.push({ name:'item', params: {code: i.Code}});
         }
     },
 

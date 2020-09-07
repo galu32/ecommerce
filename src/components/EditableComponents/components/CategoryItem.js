@@ -1,4 +1,4 @@
-<template>
+let t = `
     <div>
         <!-- target="_blank" -->
         <q-item
@@ -58,52 +58,55 @@
             <!-- </q-expansion-item>     -->
         </q-expansion-item>
         <q-separator />
-    </div>
-</template>
+    </div>`;
+module.exports.init = function (Vue,store){
+    let st = store.state.editableComponents[0].CategoryItem;
+    const q = require ('quasar');
+    Vue.component('CategoryItem', {
+        template: st || t,
+        components: {...q},
+        name: 'CategoryItem',
+        props: {
+            Name: {
+                type: String,
+                default : 'TEST'
+            },
 
-<script>
-export default {
-    name: 'EssentialLink',
-    props: {
-        Name: {
-            type: String,
-            required: true
-        },
+            Description: {
+                type: String,
+                default: 'TEST LINK'
+            },
 
-        Description: {
-            type: String,
-            default: ''
-        },
+            Link: {
+                type: String,
+                default: '#'
+            },
 
-        Link: {
-            type: String,
-            default: '#'
+            Icon: {
+                type: String,
+                default: 'home'
+            },
+            Code: {
+                type: String,
+                default : '',
+            }
         },
-
-        Icon: {
-            type: String,
-            default: ''
+        data () {
+            return {
+                SubCategories : [],
+                refCode : ''
+            };
         },
-        Code: {
-            type: String,
-            required: true
+        mounted () {
+            this.SubCategories = this.$store.state.subcategories.filter(r => r.Parent === this.Code);
+        },
+        methods: {
+            buildPath: function (code = false) {
+                if (!this.Code) return;
+                let p = '/categories/' + this.Code;
+                if (!code) return p;
+                else return p + '/' + code;
+            }
         }
-    },
-    data () {
-        return {
-            SubCategories : [],
-            refCode : ''
-        };
-    },
-    mounted () {
-        this.SubCategories = this.$store.state.subcategories.filter(r => r.Parent === this.Code);
-    },
-    methods: {
-        buildPath: function (code = false) {
-            let p = '/categories/' + this.Code;
-            if (!code) return p;
-            else return p + '/' + code;
-        }
-    }
+    });
 };
-</script>

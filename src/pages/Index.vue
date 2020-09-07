@@ -14,11 +14,10 @@
     </q-scroll-area>
 </template>
 <script>
-import MainItems from 'components/MainItems.vue';
 
 export default {
     name: 'PageIndex',
-    components: {MainItems},
+    components: {},
     props: {
         // HeaderImage: {
         //     type: String,

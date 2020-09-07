@@ -70,6 +70,7 @@ module.exports = function (/* ctx */) {
                     loader: 'eslint-loader',
                     exclude: /node_modules/,
                 });
+                cfg.optimization.minimize = false;
             },
         },
 

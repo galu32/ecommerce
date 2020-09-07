@@ -10,7 +10,7 @@ let t = `<q-card style='' to='/'>
         <q-card-actions vertical class="justify-around">
             <q-btn flat round :color='fav ? "red" : "grey"' icon="favorite" @click='storeFav'/>
             <q-btn flat round color="grey" icon="share" />
-            <q-btn flat round color="grey" icon="add_shopping_cart" />
+            <q-btn flat round color="grey" icon="add_shopping_cart" @click='addCartItem'/>
         </q-card-actions>
     </q-card-section>
     <div class='text-primary'>{{Name}}</div>
@@ -20,6 +20,7 @@ let t = `<q-card style='' to='/'>
 
 module.exports.init = function (Vue, store){
     let st = store.state.editableComponents[0].ProductCard;
+    console.log(st);
     const q = require ('quasar');
     Vue.component('ProductCard', {
         template: st || t,
@@ -74,6 +75,13 @@ module.exports.init = function (Vue, store){
             getPath: function () {
                 if (!this.Code) return '';
                 return '/item/' + this.Code;
+            },
+            addCartItem: function () {
+                let v;
+                if (!localStorage.getItem('cart'+this.Code)) v = 0;
+                else v = localStorage.getItem('cart'+this.Code);
+                localStorage.setItem('cart'+this.Code, parseInt(v) + 1);
+                this.$bus.$emit('newCart');
             }
         },
         mounted () {

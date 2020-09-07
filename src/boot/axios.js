@@ -1,10 +1,11 @@
-import axios from 'axios';
-import query from '../../both/Query';
+
+const query = require('/home/fran/Escritorio/quasarp/both/Query.js');
 
 export default async ({ app, router, store, Vue }) => {
-    let modelmanager = require('../../both/model/');
+    let modelmanager = require('/home/fran/Escritorio/quasarp/both/model/');
     try{
         window;
+        let axios = require('axios');
         let models = {};
         for (let m of store.state.allmodels){
             let model = modelmanager.getModel(m);
@@ -18,6 +19,14 @@ export default async ({ app, router, store, Vue }) => {
         Vue.prototype.$query = new query();
         Vue.prototype.$models = models;
         Vue.prototype.$bus = new Vue;
+        Vue.prototype.$errorResponse = (txt) => {
+            Vue.prototype.$q.notify({
+                message: txt,
+                position: 'center',
+                type: 'negative',
+            });
+            return false;
+        };
     }catch (err) {
         let raw = "SELECT * FROM Item";
         let items = new query(raw);
@@ -34,10 +43,14 @@ export default async ({ app, router, store, Vue }) => {
         raw = "SELECT * FROM EditableComponents";
         let editableComponents = new query(raw);
         editableComponents = await editableComponents.fetch();
+        raw = "SELECT * FROM Coupon";
+        let coupons = new query(raw);
+        coupons = await coupons.fetch();
+        raw = "SELECT * FROM PayMethod";
+        let paymethods = new query(raw);
+        paymethods = await paymethods.fetch();
         let allmodels = modelmanager.getAllModels();
-        console.log(store.state);
-        store.replaceState({items,categories,subcategories,editableComponents,home,allmodels});
-        // let model = require('../../both/model');
+        store.replaceState({items,coupons,paymethods,categories,subcategories,editableComponents,home,allmodels});
     }
 
 };

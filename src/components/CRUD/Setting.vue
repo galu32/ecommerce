@@ -67,9 +67,9 @@
                 <div 
                     v-for = 'f in Fields.filter(r => r.type === "component")'
                     v-bind:key = f.field
-                    style = 'display: flex; justify-content: space-around; margin: 5px;'
+                    style = 'width:50%; display: inline-block; padding: 10px;'
                 >
-                    <component :is="'Field' + f.field" :value='f.value' style = 'width: 45%;'></component>
+                    <component :is="'Field' + f.field" :value='f.value' style = ''></component>
                 </div>
             </q-card-section>
             <q-card-section >
@@ -135,7 +135,7 @@ export default {
             let model = new this.$models[this.Model]();
             let row = {};
             for (let f of this.Fields){
-                if (f.required && f.type !== 'boolean' && !f.value && f.value !== 0) return this.$q.notify(f.field + ' Is Required');
+                if (f.required && f.type !== 'boolean' && !f.value && f.value !== 0) return this.$errorResponse(f.field + ' Is Required');
                 row[f.field] =  f.value;
             }
             if (this.currentRow && this.currentRow.internalId)
@@ -143,7 +143,7 @@ export default {
             model.loadFromRow(row);
             let res = await model.save();
             console.log(res);
-            if (!res.status) return this.$q.notify(res.err.sqlMessage);
+            if (res.status && res.res.errno) return this.$errorResponse(res.res.sqlMessage);
             await this.load();
         },
         load: async function(){

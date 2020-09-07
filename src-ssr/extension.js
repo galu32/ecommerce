@@ -11,7 +11,7 @@ module.exports.extendApp = async function ({ app, ssr }) {
     app.use(cookieParser());
 
     app.post('/stream', async (req,res) => {
-        if (typeof req.cookies.login === 'undefined') res.send({status:false, error: 'Not Loged'});
+        // if (typeof req.cookies.login === 'undefined') res.send({status:false, error: 'Not Loged'});
         let raw = req.body._raw;
         let q = new query(raw);
         try {
