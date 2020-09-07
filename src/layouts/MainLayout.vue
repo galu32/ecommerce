@@ -1,0 +1,226 @@
+<template>
+    <q-layout view="lHh Lpr lFf">
+        <q-header elevated>
+            <q-toolbar>
+                <q-btn
+                    flat
+                    dense
+                    round
+                    icon="menu"
+                    aria-label="Menu"
+                    @click="leftDrawerOpen = !leftDrawerOpen"
+                />
+                <q-toolbar-title>
+                    {{Title}}
+                </q-toolbar-title>
+
+                <q-select
+                    filled
+                    :value="searchModel"
+                    use-input
+                    hide-selected
+                    fill-input
+                    input-debounce="0"
+                    :options="searchOptions"
+                    @filter="search"
+                    @input-value="setSearchModel"
+                    style="width: 50%; margin-right:15px; height:30px"
+                    class= "bg-white"
+                >
+                    <template v-slot:no-option>
+                        <q-item>
+                            <q-item-section class="text-grey">
+                                No results
+                            </q-item-section>
+                        </q-item>
+                    </template>
+                </q-select>
+
+                <q-btn v-if='!userobj' color="primary" label="INGRESAR" @click="loginPrompt = !loginPrompt" />
+                <q-btn v-if='userobj' color="primary" label="ADMIN" @click="adminModal = !adminModal" />
+                <q-btn flat round color="white" icon ="shopping_cart" >
+                    <q-badge color="red" floating transparent>
+                        {{cartCounter}}
+                    </q-badge>
+                </q-btn>
+                <q-btn flat round color="white" icon ="favorite" @click='favoriteCard = !favoriteCard'>
+                    <q-badge color="red" floating transparent>
+                        {{favoriteCounter}}
+                    </q-badge>
+                </q-btn>
+            </q-toolbar>
+        </q-header>
+
+        <q-drawer
+            v-model="leftDrawerOpen"
+            show-if-above
+            bordered
+            content-class="bg-grey-1"
+        >
+            <q-list>
+                <q-item
+                    clickable
+                    tag="a"
+                    to='/'
+                >
+                    <q-item-section
+                        avatar
+                    >
+                        <q-icon name='home' color='primary'/>
+                    </q-item-section>
+
+                    <q-item-section>
+                        <q-item-label class='text-primary'>Home</q-item-label>
+                    </q-item-section>
+                </q-item>
+                <q-item-label
+                    header
+                    class="text-primary"
+                >
+                    Categorias
+                    <!-- <q-separator /> -->
+                </q-item-label>
+                <EssentialLink
+                    v-for="link in essentialLinks"
+                    :key="link.Name"
+                    v-bind="link"
+                />
+            </q-list>
+        </q-drawer>
+
+        <q-page-container>
+            <router-view />
+        </q-page-container>
+        <MainFooter />
+
+
+        <q-dialog v-model="loginPrompt" persistent>
+            <q-card style="min-width: 350px">
+                <q-card-section>
+                    <div class="text-h6 text-primary">Ingresar..</div>
+                </q-card-section>
+
+                <q-card-section class="q-pt-none">
+                    <q-input label='User' dense v-model="user" autofocus @keyup.enter="prompt = false" />
+                    <q-input label='Pass' dense v-model="pass" autofocus @keyup.enter="prompt = false" />
+                </q-card-section>
+
+                <q-card-actions align="right" class="text-primary">
+                    <q-btn flat label="Cancel" v-close-popup />
+                    <q-btn flat label="Login" @click='login'/>
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
+
+        <q-dialog
+            v-model="adminModal"
+            persistent
+            :maximized="true"
+            transition-show="slide-up"
+            transition-hide="slide-down"
+        >
+            <q-card class="bg-primary text-white">
+                <q-bar>
+                    <q-space />
+                    <q-btn dense flat icon="close" v-close-popup>
+                        <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+                    </q-btn>
+                </q-bar>
+
+                <!-- <q-card-section>
+          <div class="text-h6">Settings:</div>
+        </q-card-section> -->
+                <AdminModal />
+                <q-card-section class="q-pt-none">
+                </q-card-section>
+            </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="favoriteCard">
+            <!-- <q-card class="">
+            </q-card> -->
+            <FavoriteCard/>
+        </q-dialog>
+
+    </q-layout>
+</template>
+
+<script>
+import EssentialLink from 'components/EssentialLink.vue';
+import MainFooter from 'components/MainFooter.vue';
+import AdminModal from 'components/CRUD/AdminModal.vue';
+
+const _ = require('lodash');
+// const linksData = [
+//     {
+//         title: 'Docs',
+//         caption: 'quasar.dev',
+//         icon: 'school',
+//         link: 'https://quasar.dev'
+//     },
+// ];
+
+export default {
+    name: 'MainLayout',
+    components: { EssentialLink , MainFooter, AdminModal}, //re-name
+    data () {
+        return {
+            leftDrawerOpen: false,
+            essentialLinks: [],
+            loginPrompt: false,
+            adminModal: false,
+            user: '',
+            pass: '',
+            userobj: null,
+            Title: '',
+            HeaderImage: '',
+            favoriteCounter: 0,
+            cartCounter: 0,
+            favoriteCard: false,
+            searchModel: '',
+            searchOptions: []
+        };
+    },
+    methods: {
+        login: async function () {
+            let res = await this.$axios.post('/login', {user:this.user,pass:this.pass});
+            if (!res.data.status) return;
+            // if (!res.data.length) return;
+            this.userobj = res.data.user;
+        },
+        getFavoriteCounter: function() {
+            this.favoriteCounter = Object.keys(localStorage).filter(r => r.startsWith('fav') && localStorage.getItem(r) == 1).length;
+        },
+        getCartcounter: function () {
+            let cartCounter = Object.keys(localStorage).filter(r => r.startsWith('cart')).map(r => parseInt(localStorage.getItem(r)));
+            this.cartCounter = _.sum(cartCounter);
+
+        },
+        search: function (val,upd,abort) {
+            let self = this;
+            upd(() => {
+                let v = val.toLowerCase();
+                self.searchOptions = self.$store.state.items.filter(r => r.Name.toLowerCase().includes(v)).map(r => r.Name);
+                // console.log(self.searchOptions);
+            });
+        },
+        setSearchModel: function (val) {
+            this.searchModel = val;
+        }
+    },
+
+    async mounted(){
+        let self = this;
+        this.Title = this.$store.state.home[0].Title;
+        this.essentialLinks = this.$store.state.categories;
+        this.getFavoriteCounter();
+        this.getCartcounter();
+        this.$bus.$on('newFav', self.getFavoriteCounter);
+        this.$bus.$on('newCart', self.getCartcounter);
+        this.searchOptions = this.$store.state.items.map(r => r.Name);
+        await this.login();
+    }
+};
+</script>
+<style>
+</style>

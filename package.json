@@ -1,0 +1,48 @@
+{
+  "name": "ecommerce",
+  "version": "0.0.1",
+  "description": "Ecommerce App",
+  "productName": "Ecommerce App",
+  "author": "Franco <f.galuzzi@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "lintf": "eslint --ext .js,.vue ./ --fix",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "@trevoreyre/autocomplete-vue": "^2.2.0",
+    "axios": "^0.18.1",
+    "cookie-parser": "^1.4.5",
+    "core-js": "^3.6.5",
+    "eslint": "^7.8.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.27.0",
+    "quasar": "^1.0.0"
+  },
+  "devDependencies": {
+    "@quasar/app": "^2.0.0",
+    "@vue/devtools": "^5.3.3",
+    "babel-eslint": "^10.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-vue": "^6.1.2"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
