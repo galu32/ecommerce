@@ -18,6 +18,7 @@ let t = `
 <q-item-section top side>
   <div class="text-grey-8 q-gutter-xs">
       <q-input
+          :disable = 'disable'
           v-model.number="Qty"
           type="number"
           filled
@@ -58,6 +59,10 @@ module.exports.init = function (Vue,store){
             Code: {
                 type: String,
                 default : '',
+            },
+            disable: {
+                type: Boolean,
+                default: false,
             }
         },
         data () {
@@ -81,6 +86,7 @@ module.exports.init = function (Vue,store){
         },
         methods: {
             deleteCart: function () {
+                if (this.disable) return;
                 localStorage.removeItem('cart'+this.Code);
                 this.$bus.$emit('newCart');
             }

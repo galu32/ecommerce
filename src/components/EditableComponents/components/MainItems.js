@@ -13,7 +13,7 @@ let t =
     <div class="q-pa-md">
         <q-scroll-area
             horizontal
-            style="height: 270px; width: 100%;"
+            style="height: 250px; width: 100%;"
             class="bg-grey-1 rounded-borders"
         >
             <div class="row no-wrap">

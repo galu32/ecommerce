@@ -49,8 +49,11 @@ export default async ({ app, router, store, Vue }) => {
         raw = "SELECT * FROM PayMethod";
         let paymethods = new query(raw);
         paymethods = await paymethods.fetch();
+        raw = "SELECT * FROM ShipMethod";
+        let shipmethods = new query(raw);
+        shipmethods = await shipmethods.fetch();
         let allmodels = modelmanager.getAllModels();
-        store.replaceState({items,coupons,paymethods,categories,subcategories,editableComponents,home,allmodels});
+        store.replaceState({items,coupons,shipmethods,paymethods,categories,subcategories,editableComponents,home,allmodels});
     }
 
 };

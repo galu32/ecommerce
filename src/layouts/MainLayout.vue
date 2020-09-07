@@ -37,7 +37,8 @@
                 </q-select>
 
                 <q-btn v-if='!userobj' color="primary" label="INGRESAR" @click="loginPrompt = !loginPrompt" />
-                <q-btn v-if='userobj' color="primary" label="ADMIN" @click="adminModal = !adminModal" />
+                <q-btn v-if='userobj && userobj.Admin' color="primary" label="ADMIN" @click="adminModal = !adminModal" />
+                <q-btn v-if='userobj && !userobj.Admin' color="primary" label="ACCOUNT" @click="accountModal = !accountModal" />
                 <q-btn flat round color="white" icon ="shopping_cart" @click='cartModal = cartCounter ? !cartModal : $errorResponse("No cart items")'>
                     <q-badge color="red" floating transparent>
                         {{cartCounter}}
@@ -115,19 +116,43 @@
 
         <q-dialog v-model="loginPrompt" > <!-- persistent -->
             <q-card style="min-width: 350px">
-                <q-card-section>
-                    <div class="text-h6 text-primary">Ingresar..</div>
-                </q-card-section>
+                <div v-if ='!registerModal'>
+                    <q-card-section>
+                        <div class="text-h6 text-primary">Sign in..</div>
+                    </q-card-section>
 
-                <q-card-section class="q-pt-none">
-                    <q-input label='User' dense v-model="user" autofocus @keyup.enter="prompt = false" />
-                    <q-input label='Pass' dense v-model="pass" @keyup.enter="prompt = false" />
-                </q-card-section>
+                    <q-card-section class="q-pt-none">
+                        <q-input label='User' dense v-model="user" autofocus @keyup.enter="prompt = false" />
+                        <q-input label='Pass' dense v-model="pass" @keyup.enter="prompt = false" />
+                    </q-card-section>
 
-                <q-card-actions align="right" class="text-primary">
-                    <q-btn flat label="Cancel" v-close-popup />
-                    <q-btn flat label="Login" @click='login' v-close-popup/>
-                </q-card-actions>
+                    <q-card-actions align="right" class="text-primary">
+                        <q-btn flat label="Cancel" v-close-popup />
+                        <q-btn flat label="Login" @click='login' v-close-popup/>
+                    </q-card-actions>
+                    <q-card-section class="q-pt-none">
+                        <q-card-section>
+                            <div style='display:inline-block; margin: 10px' class="text-h6 text-primary">Not registered?..</div>
+                            <q-btn color="primary" label="Register" @click="registerModal = !registerModal" />
+                        </q-card-section>
+                    </q-card-section>
+                </div>
+                <div v-else>
+                    <q-card-section>
+                        <div class="text-h6 text-primary">Register..</div>
+                    </q-card-section>
+
+                    <q-card-section class="q-pt-none">
+                        <q-input label='User' dense v-model="user" autofocus @keyup.enter="prompt = false" />
+                        <q-input label='Pass' dense v-model="pass" @keyup.enter="prompt = false" />
+                        <q-input label='Name' dense v-model="name" @keyup.enter="prompt = false" />
+                        <q-input label='Mail' dense v-model="mail" @keyup.enter="prompt = false" />
+                    </q-card-section>
+                    <div style='align-center'>
+                        <q-btn color="primary" label="Go Back" style='display:inline-block; margin: 10px' @click='registerModal = !registerModal' />
+                        <q-btn color="primary" label="Send" style='display:inline-block; margin: 10px' @click='sendRegister' />
+                    </div>
+                </div>
             </q-card>
         </q-dialog>
 
@@ -165,6 +190,11 @@
             </q-card> -->
             <CartModal/>
         </q-dialog>
+        <q-dialog v-model="accountModal">
+            <!-- <q-card class="">
+            </q-card> -->
+            <AccountModal/>
+        </q-dialog>
 
     </q-layout>
 </template>
@@ -172,20 +202,13 @@
 <script>
 import MainFooter from 'components/MainFooter.vue';
 import AdminModal from 'components/CRUD/AdminModal.vue';
+import AccountModal from 'components/CRUD/AccountModal.vue';
 
 const _ = require('lodash');
-// const linksData = [
-//     {
-//         title: 'Docs',
-//         caption: 'quasar.dev',
-//         icon: 'school',
-//         link: 'https://quasar.dev'
-//     },
-// ];
 
 export default {
     name: 'MainLayout',
-    components: {MainFooter, AdminModal}, //re-name
+    components: {MainFooter, AdminModal, AccountModal}, //re-name
     data () {
         return {
             leftDrawerOpen: false,
@@ -193,8 +216,12 @@ export default {
             loginPrompt: false,
             adminModal: false,
             cartModal: false,
+            accountModal: false,
+            registerModal: false,
             user: '',
             pass: '',
+            mail: '',
+            name: '',
             userobj: null,
             Title: '',
             HeaderImage: '',
@@ -211,6 +238,7 @@ export default {
             if (!res.data.status) return;
             // if (!res.data.length) return;
             this.userobj = res.data.user;
+            this.$store.commit('set', {key:'user', value:this.userobj});
         },
         getFavoriteCounter: function() {
             this.favoriteCounter = Object.keys(localStorage).filter(r => r.startsWith('fav') && localStorage.getItem(r) == 1).length;
@@ -235,6 +263,20 @@ export default {
             // let v = 'item/' + i.Code;
             // if (this.$route.path.includes('/item/')) v = i.Code;
             this.$router.push({ name:'item', params: {code: i.Code}});
+        },
+        sendRegister: async function () {
+            if (!this.user || !this.pass || !this.mail || !this.name) return this.$errorResponse('All fields are required');
+            let res = await this.$axios.post('/register', {user:this.user,pass:this.pass,mail:this.mail,name:this.name});
+            res = res.data;
+            if (!res) return this.$errorResponse('Error');
+            if (res.res && res.res.errno) return this.$errorResponse(res.res.sqlMessage || 'Error');
+            this.registerModal = false;
+        },
+        openEventModal: function (m) {
+            if (m === 'register') {
+                this.loginPrompt = true;
+                this.registerModal = false;
+            }
         }
     },
 
@@ -246,6 +288,7 @@ export default {
         this.getCartcounter();
         this.$bus.$on('newFav', self.getFavoriteCounter);
         this.$bus.$on('newCart', self.getCartcounter);
+        this.$bus.$on('openModal', self.openEventModal);
         this.searchOptions = this.$store.state.items.map(r => r.Name);
         await this.login();
     }

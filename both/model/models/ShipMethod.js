@@ -1,6 +1,6 @@
 let Parent = require('./Model');
 
-class PayMethod extends Parent {
+class ShipMethod extends Parent {
 
     constructor() {
         super();
@@ -17,9 +17,8 @@ class PayMethod extends Parent {
             Name: {type: 'string', required: true},
             Description: {type: 'string', required: true},
             Image: {type: 'string', required: true},
-            Instantly: {type: 'boolean'},
-            FreeShip: {type: 'boolean'},
-            Online: {type: 'boolean'}
+            Total: {type: 'value'},
+            FreeShip: {type: 'boolean'}
         };
     }
 
@@ -31,4 +30,4 @@ class PayMethod extends Parent {
 
 }
 
-module.exports = PayMethod;
+module.exports = ShipMethod;

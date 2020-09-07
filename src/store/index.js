@@ -19,6 +19,11 @@ export default function (/* { ssrContext } */) {
         modules: {
             // example
         },
+        mutations: {
+            set (state, value) {
+                state[value.key] = value.value;
+            }
+        },
 
         // enable strict mode (adds overhead!)
         // for dev mode only

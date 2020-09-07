@@ -1,6 +1,6 @@
 <template>
     <q-scroll-area
-        style="height: 85vh; width: 100%;"
+        style="height: 80vh; width: 100%;"
         class="bg-grey-1 rounded-borders">
         <q-page class="flex-center">
             <q-img :src=HomeOptions.HeaderImage style='height: 500px; ' />

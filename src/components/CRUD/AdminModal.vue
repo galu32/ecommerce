@@ -14,6 +14,7 @@
             <q-tab name="SubCategories" icon="collections_bookmark" />
             <q-tab name="Coupon" icon="credit_card" />
             <q-tab name="PayMethod" icon="payment" />
+            <q-tab name="ShipMethod" icon="local_shipping" />
             <q-tab name="EditableComponents" icon="settings_input_component" />
 
         </q-tabs>
@@ -41,6 +42,9 @@
         </q-card>
         <q-card v-if='tab === "PayMethod"'>
             <Setting Model = 'PayMethod'/>
+        </q-card>
+        <q-card v-if='tab === "ShipMethod"'>
+            <Setting Model = 'ShipMethod'/>
         </q-card>
     </q-card>
 </template>

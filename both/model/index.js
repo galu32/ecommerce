@@ -27,6 +27,7 @@ let fieldsDict = {
     'string' : 'varchar(255)',
     'set' : 'varchar(255)',
     'boolean' : 'tinyint(1)',
+    'integer' : 'INT',
     'date' : 'date',
     'time' : 'time',
     'textarea' : 'text',

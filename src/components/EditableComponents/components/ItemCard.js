@@ -16,7 +16,7 @@ let t = `<q-card style = 'display:inline-block; width: 35%; margin-top: 30px'>
     <q-btn flat round color="grey" icon="add_shopping_cart" @click='addItemCart'/>
 </div>
 <div style = ' float: right; padding: 10px' class ='text-h3 text-primary'>
-    {{Price}}
+   $ {{Price}}
 </div>
 </q-card>`;
 

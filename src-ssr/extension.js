@@ -47,10 +47,32 @@ module.exports.extendApp = async function ({ app, ssr }) {
 
         let rand = Math.random().toString();
         rand = rand.substring(2,rand.length);
-        res.cookie('login',rand, { maxAge: 900000, httpOnly: true });
+        res.cookie('login',rand, { maxAge: 1500000, httpOnly: true });
         context.set(rand,q[0]);
 
         res.send({status:true, user:q[0]});
+    });
+
+    app.post('/register', async (req,res) => {
+        let {user,pass,mail,name} = req.body;
+        let cls = models.getModel('User');
+        cls = new cls();
+        cls.Username = user;
+        cls.Name = name;
+        cls.Password = pass;
+        cls.Email = mail;
+        cls.Admin = false;
+        let s = await cls.save();
+        res.send(s);
+    });
+
+    app.post('/updateContext', async (req,res) => {
+        let {internalId} = req.body;
+        let raw = "SELECT * FROM User WHERE internalId = " + internalId;
+        let q = new query(raw);
+        q = await q.fetch();
+        context.set(req.cookies.login, q[0]);
+        res.send({status:true});
     });
 
     // app.post('/save', async (req,res) => {
@@ -70,5 +92,23 @@ module.exports.extendApp = async function ({ app, ssr }) {
     //         res.send({status:false,res:err});
     //     }
     // });
+
+    const mercadopago = require ('mercadopago');
+
+    mercadopago.configure({
+        access_token: 'TEST-2973480930142802-090723-52893738940ff669a2c0210564790005-383264688'
+    });
+
+    app.post('/genOrder', async (req,res) => {
+        mercadopago.preferences.create(req.body)
+            .then(function(response){
+                // Este valor reemplazará el string "<%= global.id %>" en tu HTML
+                global.id = response.body.id;
+                return res.send({status:true, res: response.body});
+            }).catch(function(error){
+                console.log(error);
+                if (error) return res.send({status:false, res: error});
+            });
+    });
 
 };
