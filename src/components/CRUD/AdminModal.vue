@@ -16,6 +16,7 @@
             <q-tab name="PayMethod" icon="payment" />
             <q-tab name="ShipMethod" icon="local_shipping" />
             <q-tab name="EditableComponents" icon="settings_input_component" />
+            <q-tab name="MailSettings" icon="mail" />
 
         </q-tabs>
         <q-card v-if='tab === "Home"'>
@@ -44,7 +45,10 @@
             <Setting Model = 'PayMethod'/>
         </q-card>
         <q-card v-if='tab === "ShipMethod"'>
-            <Setting Model = 'ShipMethod'/>
+            <Setting Model = 'ShiMailSettingspMethod'/>
+        </q-card>
+        <q-card v-if='tab === "MailSettings"'>
+            <Setting Model = 'MailSettings'/>
         </q-card>
     </q-card>
 </template>

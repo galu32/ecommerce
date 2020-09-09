@@ -14,7 +14,8 @@ let t = `
                 :key= 'f.field'
                 :is="f.type"
                 v-bind='f'
-                v-model='f.value' 
+                v-model='f.value'
+                @submit = 'sendLogin'
             />
         </q-card-section>
 
@@ -40,7 +41,8 @@ let t = `
                 :key = 'f.field'
                 :is="f.type"
                 v-bind='f'
-                v-model='f.value' 
+                v-model='f.value'
+                @submit = 'sendRegister'
             />
         </q-card-section>
         <div style='align-center'>

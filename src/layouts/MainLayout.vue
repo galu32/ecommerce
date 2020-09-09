@@ -228,7 +228,8 @@ export default {
             self.accountModal = false;
         });
         this.searchOptions = this.$store.state.items.map(r => r.Name);
-        await this.$axios.post('login');
+        let res = await this.$axios.post('login');
+        if (res.data && res.data.status) this.userobj = res.data.user;
     }
 };
 </script>

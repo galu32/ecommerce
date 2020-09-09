@@ -54,6 +54,5 @@ export default async ({ store, Vue }) => {
             let cc = require('src/components/EditableComponents/'+c);
             cc.init(Vue,store);
         }
-
     }
 };
