@@ -223,7 +223,8 @@ export default {
         this.$bus.$on('newFav', self.getFavoriteCounter);
         this.$bus.$on('newCart', self.getCartcounter);
         this.$bus.$on('login', (u) => self.userobj = u);
-        this.$bus.$on('logout', (u) => {
+        this.$bus.$on('logout', async (u) => {
+            await this.$axios.post('/logout');
             self.userobj = null;
             self.accountModal = false;
         });

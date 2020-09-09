@@ -29,6 +29,11 @@ module.exports.extendApp = async function ({ app, ssr }) {
         }
     });
 
+    app.post('/logout', async (req,res) => {
+        authcontext.delete(req.cookies.login);
+        res.send({status:true, res: 'ok!'});
+    });
+
     app.post('/login', async (req,res) => {
         if (typeof req.cookies.login !== 'undefined'){
             let u = authcontext.get(req.cookies.login);
