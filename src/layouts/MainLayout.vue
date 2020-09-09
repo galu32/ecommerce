@@ -177,10 +177,6 @@ export default {
             cartModal: false,
             accountModal: false,
             registerModal: false,
-            user: '',
-            pass: '',
-            mail: '',
-            name: '',
             userobj: null,
             Title: '',
             HeaderImage: '',
@@ -216,12 +212,6 @@ export default {
             // if (this.$route.path.includes('/item/')) v = i.Code;
             this.$router.push({ name:'item', params: {code: i.Code}});
         },
-        openEventModal: function (m) {
-            if (m === 'register') {
-                this.loginPrompt = true;
-                this.registerModal = false;
-            }
-        }
     },
 
     async mounted(){
@@ -232,8 +222,11 @@ export default {
         this.getCartcounter();
         this.$bus.$on('newFav', self.getFavoriteCounter);
         this.$bus.$on('newCart', self.getCartcounter);
-        this.$bus.$on('openModal', self.openEventModal);
         this.$bus.$on('login', (u) => self.userobj = u);
+        this.$bus.$on('logout', (u) => {
+            self.userobj = null;
+            self.accountModal = false;
+        });
         this.searchOptions = this.$store.state.items.map(r => r.Name);
         await this.$axios.post('login');
     }

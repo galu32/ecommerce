@@ -120,6 +120,13 @@ module.exports.init = function (Vue, store){
             }
         },
         mounted () {
+            let self = this;
+            this.$bus.$on('openModal', (m) => {
+                if (m === 'register'){
+                    this.openModal = true;
+                    this.loginType = true;
+                }
+            });
             let m = this.$models.User;
             this.model = new m();
             let loginFields = m.getLoginFields();

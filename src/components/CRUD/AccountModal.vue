@@ -13,42 +13,10 @@
         <q-card v-if='tab === "Account"'>
             <div
                 style = 'width:50%; display: inline-block; padding: 10px'
-                v-for='f in Fields.filter(r => r.type !== "component")'
+                v-for='f in Fields'
                 v-bind:key = f.field>
-                <q-input
-                    v-if = 'f.type !== "boolean" && f.type !== "set" && f.type !== "component"'
-                    v-bind:hint = f.field
-                    v-bind:readonly = f.readonly
-                    v-bind:type = f.type
-                    class = ''
-                    :mask= "f.type === 'value' ? '#.##' : '' "
-                    :fill-mask= "f.type === 'value' ? false : '' "
-                    square filled v-model="f.value" />
-                <q-select
-                    v-if = 'f.type === "set"'
-                    filled
-                    quare
-                    v-model= "f.value"
-                    multiple
-                    :options='f.linkto ? $store.state[f.linkto.toLowerCase()].map(r => r.Code) : []'
-                    use-chips
-                    stack-label
-                    :label=f.field
-                />
-                <q-checkbox
-                    v-if = 'f.type === "boolean"'
-                    v-bind:label = f.field
-                    class = 'text-primary'
-                    left-label
-                    v-model = "f.value"
-                />
-            </div>
-            <div 
-                v-for = 'f in Fields.filter(r => r.type === "component")'
-                v-bind:key = f.field
-                style = 'width:50%; display: inline-block; padding: 10px;'
-            >
-                <component :is="'Field' + f.field" :value='f.value' style = ''></component>
+                <component v-if='f.type !== "component"' :is="f.type" v-bind='f' v-model='f.value' style = ''/>
+                <component v-else :is="'Field' + f.field" :value='f.value' style = ''/>
             </div>
             <div style= 'diplay:flex; justify-content: center'>
                 <q-btn
@@ -57,6 +25,13 @@
                                                                                         border: 3px solid;
                                                                                         padding: 10px;
                                                                             ' />
+                <q-btn
+                    color="primary" label="Logout" @click="logout" class='center' style='   margin: auto;
+                                                                                        width: 50%;
+                                                                                        border: 3px solid;
+                                                                                        padding: 10px;
+                                                                            ' />
+
             </div>
         </q-card>
     </q-card>
@@ -87,15 +62,14 @@ export default {
             let Fields = this.model.fields;
             this.Fields = Object.keys(Fields).filter(f => !Fields[f].internal && f !== 'Admin')
                 .map(f => {
-                    let i = {field:f, value:undefined, readonly: Fields[f].readonly, required: Fields[f].required, linkto: Fields[f].linkto };
-                    if (Fields[f].type === 'integer' || Fields[f].type === 'value')
-                        i.type = 'number';
-                    else if (Fields[f].type === 'string')
-                        i.type = 'text';
-                    else if (Fields[f].type === 'boolean')
-                        i.value = false;
-                    if (!i.type)
-                        i.type = Fields[f].type;
+                    let i = {
+                        field: f,
+                        value: undefined,
+                        readonly: Fields[f].readonly || false,
+                        required: Fields[f].required,
+                        linkto: Fields[f].linkto,
+                        type: Fields[f].type
+                    };
                     return i;
                 });
         },
@@ -114,6 +88,10 @@ export default {
             let res = await this.model.save();
             if (res.status && res.res.errno) return this.$errorResponse(res.res.sqlMessage);
             await this.updateContext();
+        },
+        logout: function() {
+            this.$bus.$emit('logout');
+            this.$store.commit('set', {key:'user', value:null});
         },
         updateContext: async function () {
             let d = {};
