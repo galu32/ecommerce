@@ -1,6 +1,5 @@
 /*add models (mysql) to Vue Context */
 export default async ({store, Vue }) => {
-    if (typeof window === 'undefined') return; //load on client only
     let modelmanager = require('oo').models;
     let models = {};
     for (let m of store.state.allmodels){ //here models name are init by store.js boot from server querys.
