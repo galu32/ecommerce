@@ -6,6 +6,7 @@ module.exports.init = async function (Vue, store) {
     const ItemCard = require('./components/ItemCard');
     const CartModal = require('./components/CartModal');
     const CheckOutItem = require('./components/CheckOutItem');
+    const Fields = require('./components/Fields/Fields');
     ProductCard.init(Vue,store);
     FavoriteCard.init(Vue,store);
     CategoryItem.init(Vue,store);
@@ -13,4 +14,5 @@ module.exports.init = async function (Vue, store) {
     ItemCard.init(Vue,store);
     CartModal.init(Vue,store);
     CheckOutItem.init(Vue,store);
+    Fields.init(Vue,store);
 };

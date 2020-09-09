@@ -20,7 +20,6 @@ let t = `<q-card style='' to='/'>
 
 module.exports.init = function (Vue, store){
     let st = store.state.editableComponents[0].ProductCard;
-    console.log(st);
     const q = require ('quasar');
     Vue.component('ProductCard', {
         template: st || t,

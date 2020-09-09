@@ -18,7 +18,7 @@ class Item extends Parent {
             HomePage: {type: 'boolean', required: true},
             Categories: {type: 'set', required: true, linkto: 'Categories'},
             SubCategories: {type: 'set', required: false, linkto: 'SubCategories'},
-            Description: {type: 'textarea', required: false},
+            Description: {type: 'textareas', required: false},
             Price: {type: 'value', required: true}
         };
     }

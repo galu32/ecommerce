@@ -30,7 +30,7 @@ let fieldsDict = {
     'integer' : 'INT',
     'date' : 'date',
     'time' : 'time',
-    'textarea' : 'text',
+    'textareas' : 'text',
     'value' : 'double',
     'component' : 'text'
 };

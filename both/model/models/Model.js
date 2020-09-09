@@ -50,7 +50,7 @@ class Model {
     }
 
     fieldStringTypes () {
-        return ['string', 'date', 'time', 'set', 'textarea', 'component'];
+        return ['string', 'date', 'time', 'set', 'textareas', 'component'];
     }
 
     async save(){
