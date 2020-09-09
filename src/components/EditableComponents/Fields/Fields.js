@@ -47,6 +47,7 @@ let fields = { //el nombre del componente es igual al tipo de campo en la clase 
             class = ''
             square filled
             v-model="content"
+            v-on:keyup.enter="submit"
         />`
     ,
     textareas : `
@@ -57,6 +58,7 @@ let fields = { //el nombre del componente es igual al tipo de campo en la clase 
             class = ''
             square filled
             v-model="content"
+            v-on:keyup.enter="submit"
         />`
     ,
     integer : `
@@ -67,6 +69,7 @@ let fields = { //el nombre del componente es igual al tipo de campo en la clase 
             class = ''
             square filled
             v-model="content"
+            v-on:keyup.enter="submit"
         />`
     ,
     boolean: `
@@ -75,6 +78,7 @@ let fields = { //el nombre del componente es igual al tipo de campo en la clase 
             class = 'text-primary'
             left-label
             v-model = "content"
+            v-on:keyup.enter="submit"
         />`
     ,
     set : `
@@ -87,6 +91,7 @@ let fields = { //el nombre del componente es igual al tipo de campo en la clase 
             use-chips
             stack-label
             :label=field
+            v-on:keyup.enter="submit"
         />`
     ,
     value: `
@@ -98,6 +103,7 @@ let fields = { //el nombre del componente es igual al tipo de campo en la clase 
             mask= "'#.##'"
             square filled 
             v-model="content"
+            v-on:keyup.enter="submit"
         />
         `
 
@@ -149,6 +155,9 @@ module.exports.init = function (Vue, store){
             methods : {
                 getValue: function () {
                     return this.content;
+                },
+                submit: function (k) {
+                    this.$emit("submit");
                 }
             }
         });

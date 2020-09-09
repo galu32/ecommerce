@@ -1,7 +1,7 @@
 module.exports.extendApp = async function ({ app, ssr }) {
     const context = new Map(); //provisorio
-    const query = require('../both/Query');
-    const models = require('../both/model');
+    const {query} = require('oo');
+    const {models} = require('oo');
     const express = require('express');
     const cookieParser = require('cookie-parser');
 
@@ -34,13 +34,19 @@ module.exports.extendApp = async function ({ app, ssr }) {
     });
 
     app.post('/login', async (req,res) => {
-        let {user,pass} = req.body;
         if (typeof req.cookies.login !== 'undefined'){
             let u = context.get(req.cookies.login);
             if (u) return res.send({status:true, user:u});
         }
-        if (!user || !pass) return res.send({status:false});
-        let raw = `SELECT * FROM User WHERE Username = '${user}' AND Password = '${pass}' `;
+        if (!Object.keys(req.body).length) return {status: false};
+        let raw = 'SELECT * FROM User WHERE ';
+        let ups = [];
+        for (let f in req.body){
+            if (!req.body[f]) return {status:false};
+            let u = `${f} = '${req.body[f]}' `;
+            ups.push(u);
+        }
+        raw += ups.join(' AND ');
         let q = new query(raw);
         q = await q.fetch();
         if (!q.length == 1) return res.send({status:false});
@@ -54,14 +60,12 @@ module.exports.extendApp = async function ({ app, ssr }) {
     });
 
     app.post('/register', async (req,res) => {
-        let {user,pass,mail,name} = req.body;
         let cls = models.getModel('User');
         cls = new cls();
-        cls.Username = user;
-        cls.Name = name;
-        cls.Password = pass;
-        cls.Email = mail;
-        cls.Admin = false;
+        cls.Admin = 0;
+        for (let f in req.body){
+            cls[f] = req.body[f];
+        }
         let s = await cls.save();
         res.send(s);
     });

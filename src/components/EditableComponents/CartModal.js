@@ -149,6 +149,7 @@ module.exports.init = function (Vue,store){
             },
             processPayment: async function () {
                 let items = this.items.map(r => ({unit_price:r.Price, title:r.Name, quantity: parseInt(localStorage.getItem('cart'+r.Code))}));
+                if (this.ShipCost) items.push({unit_price: this.ShipCost, title: 'ENVIO', quantity: 1});
                 let res = await this.$axios.post('/genOrder', {items});
                 if (res.data.status) window.open(res.data.res.init_point, '_blank');
                 else return this.$errorResponse('Error');

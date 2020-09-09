@@ -24,6 +24,11 @@ export default function (/* { ssrContext } */) {
                 state[value.key] = value.value;
             }
         },
+        getters: {
+            getModel: function (state,model) {
+                return state.models[model];
+            }
+        },
 
         // enable strict mode (adds overhead!)
         // for dev mode only
