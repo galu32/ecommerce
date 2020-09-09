@@ -34,9 +34,9 @@
             <q-card-section >
                 <div
                     style = 'width:25%; display: inline-block; padding: 10px'
-                    v-for='f in Fields.filter(r => r.type !== "component")'
+                    v-for='f in Fields'
                     v-bind:key = f.field>
-                    <component v-if='f.type !== "compontent"' :is="f.type" v-bind='f' v-model='f.value' style = ''/>
+                    <component v-if='f.type !== "component"' :is="f.type" v-bind='f' v-model='f.value' style = ''/>
                     <component v-else :is="'Field' + f.field" :value='f.value' style = ''/>
                 </div>
             </q-card-section>
@@ -47,6 +47,9 @@
                 <q-btn
                     v-if = 'showSave'
                     color="primary" label="Save" @click="save" class='' />
+                <q-btn
+                    v-if = 'currentRow'
+                    color="primary" label="Delete" @click="deleteRow" class='' />
             </q-card-section>
         </q-card>
     </div>
@@ -114,7 +117,17 @@ export default {
             if (res.status && res.res.errno) return this.$errorResponse(res.res.sqlMessage);
             await this.load();
         },
+        deleteRow: async function () {
+            let model = new this.$models[this.Model]();
+            model.loadFromRow(this.currentRow);
+            let res = await model.delete();
+            console.log(res);
+            if (res.status && res.res.errno) return this.$errorResponse(res.res.sqlMessage);
+            await this.load();
+        },
         load: async function(){
+            this.currentRow = null;
+            this.Fields = [];
             await this.getRows();
             await this.getFields();
             this.getColumns();
@@ -130,8 +143,6 @@ export default {
             this.Items = items;
         },
         getFields: async function () {
-            this.currentRow = null;
-            this.Fields = [];
             let Model = new this.$models[this.Model]();
             let Fields = Model.fields;
       
@@ -158,7 +169,7 @@ export default {
                         f.value = q[0][f.field] == 0 ? false : true;
                         continue;
                     }else f.value = q[0][f.field];
-        }
+        },
     }
 };
 </script>

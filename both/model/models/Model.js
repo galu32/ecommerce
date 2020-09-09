@@ -53,6 +53,20 @@ class Model {
         return ['string', 'date', 'time', 'set', 'textareas', 'component'];
     }
 
+    async delete() {
+        if (!this.internalId) return {status:false, res: 'no id'};
+        let raw = `DELETE FROM ${this.name()} WHERE internalId = ${this.internalId}`;
+        try {
+            let q = new Query();
+            q._raw = raw;
+            q = await q.fetch();
+            if (typeof q.status !== 'undefined' && !q.status) return q;
+            return {status:true, res:q};
+        }catch (err){
+            return {status:false, res:err};
+        }
+    }
+
     async save(){
         let stringtypes = this.fieldStringTypes();
         let u;
