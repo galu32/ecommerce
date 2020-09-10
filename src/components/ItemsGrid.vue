@@ -1,17 +1,26 @@
 <template>
-    <q-scroll-area
-        style="height: 700px; width: 100%; padding:10px;"
-        class="bg-grey-1 rounded-borders"
-    >
-        <div class='text-h2 text-primary'> Items from Category: {{CatName}} </div>
-        <q-separator/>
-        <ProductCard 
-            v-for='item in Items'
-            :key=item.Code
-            v-bind=item
-            style='width:19%; margin: 5px; display:inline-block'
-        />
-    </q-scroll-area>
+    <div>
+        <div class='text-h2 text-primary'
+             style='margin:15px;'
+        > Items from Category: {{CatName}} </div>
+        <q-scroll-area
+            style="height: 700px; width: 100%; padding:10px;"
+            class="bg-grey-1 rounded-borders"
+        >
+            <q-separator/>
+            <div class=''>
+                <div v-for='item in Items'
+                     :key=item.Code
+                     style='width:22%;  display: inline-block;
+                margin-left:36px;margin-top:40px;'
+                >
+                    <ProductCard 
+                        v-bind=item
+                    />
+                </div>
+            </div>
+        </q-scroll-area>
+    </div>
 </template>
 
 <script>

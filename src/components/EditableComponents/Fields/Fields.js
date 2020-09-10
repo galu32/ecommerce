@@ -152,7 +152,8 @@ module.exports.init = function (Vue, store){
                     this.content = this.value;
                 },
                 content: function () {
-                    this.$emit('input', this.content);
+                    let c = this.content;
+                    this.$emit('input', c);
                 }
             },
             methods : {

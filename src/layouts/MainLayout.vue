@@ -69,24 +69,24 @@
                     >
                         <q-icon name='home' color='primary'/>
                     </q-item-section>
-
                     <q-item-section>
                         <q-item-label class='text-primary'>Home</q-item-label>
                     </q-item-section>
                 </q-item>
+                <q-separator />
                 <q-item-label
                     header
                     class="text-primary"
                 >
-                    Categorias
+                    Categorias:
                     <!-- <q-separator /> -->
                 </q-item-label>
+                <q-separator />
                 <CategoryItem
                     v-for="link in essentialLinks"
                     :key="link.Name"
                     v-bind="link"
                 />
-                <q-separator />
                 <q-item
                     clickable
                     tag="a"
@@ -105,6 +105,7 @@
                         </q-item-label>
                     </q-item-section>
                 </q-item>
+                <q-separator />
             </q-list>
         </q-drawer>
 

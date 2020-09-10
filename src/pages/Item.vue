@@ -1,15 +1,15 @@
 <template>
-    <q-scroll-area
-        style="height: 85vh; width: 100%;"
-        class="bg-grey-1 rounded-borders">
-        <q-page class="flex-center" v-if='Item'>
-            <q-img
-                style="height: 40vh ; width:60%; margin:30px;"
-                :src='Item.Image'
-            />
-            <ItemCard v-bind=Item />
-        </q-page>
-    </q-scroll-area>
+    <q-page class="flex-center" v-if='Item'>
+        <!-- <q-scroll-area
+            style="height: 85vh; width: 100%;"
+            class="bg-grey-1 rounded-borders"> -->
+        <q-img
+            style="height: 78vh ; width:60%; margin:30px;"
+            :src='Item.Image'
+        />
+        <ItemCard v-bind=Item />
+        <!-- </q-scroll-area> -->
+    </q-page>
 </template>
 <script>
 export default {

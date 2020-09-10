@@ -1,22 +1,20 @@
 let t = 
 `
-<q-card>
+    <div class="q-pa-md">
 <q-item-label
     header
     class="text-grey text-center"
     style="font-size: 25px"
 >
     {{title}}
-</q-item-label>
+    </q-item-label>
 <q-separator />
-<q-card-section class="q-pa-md">
-    <div class="q-pa-md">
         <q-scroll-area
             horizontal
-            style="height: 250px; width: 100%;"
+            style="height: 300px; width: 100%;"
             class="bg-grey-1 rounded-borders"
         >
-            <div class="row no-wrap">
+            <div class="row no-wrap" style='margin-top:30px;'>
                 <!-- <div v-for="n in 10" :key="n" style="width: 150px" class="q-pa-sm"> -->
                 <ProductCard 
                     v-for='item in MainProdcuts'
@@ -27,8 +25,6 @@ let t =
             <!-- </div> -->
         </q-scroll-area>
     </div>
-</q-card-section>
-</q-card>
 `;
 
 module.exports.init = function (Vue,store){
@@ -39,18 +35,16 @@ module.exports.init = function (Vue,store){
         components: {...q},
         name: 'MainItems',
         props: {
-            title: {
-                type: String,
-                default: "Ofertas de la semana"
-            }
         },
         data () {
             return {
                 MainProdcuts : [],
+                title: "",
             };
         },
         mounted () {
             this.MainProdcuts = this.$store.state.items.filter(r => r.HomePage);
+            this.title = "Ofertas (" + this.MainProdcuts.length + ")";
         }
     });
 };

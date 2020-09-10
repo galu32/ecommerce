@@ -1,23 +1,24 @@
 <template>
-    <q-scroll-area
-        style="height: 80vh; width: 100%;"
-        class="bg-grey-1 rounded-borders">
-        <q-page class="flex-center">
-            <q-img :src=HomeOptions.HeaderImage style='height: 500px; ' />
-            <MainItems/>
-            <!-- <q-img :src=HeaderImage style='height: 400px' />
+    <q-page class="flex-center">
+        <!-- <q-scroll-area
+            style="height: 85vh; width: 100%;"
+            class="bg-grey-1 rounded-borders"> -->
+        <q-img :src=HomeOptions.HeaderImage style='height: 430px; ' />
+        <MainItems />
+        <!-- <q-img :src=HeaderImage style='height: 400px' />
             <MainItems/> -->
-        </q-page>
+        <!-- </q-scroll-area> -->
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-btn fab icon="phone" color="primary" />
         </q-page-sticky>
-    </q-scroll-area>
+    </q-page>
+
 </template>
 <script>
-
+// import MainFooter from 'components/MainFooter.vue';
 export default {
     name: 'PageIndex',
-    components: {},
+    // components: {MainFooter},
     props: {
         // HeaderImage: {
         //     type: String,

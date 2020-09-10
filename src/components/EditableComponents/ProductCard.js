@@ -13,7 +13,12 @@ let t = `<q-card style='' to='/'>
             <q-btn flat round color="grey" icon="add_shopping_cart" @click='addCartItem'/>
         </q-card-actions>
     </q-card-section>
-    <div class='text-primary'>{{Name}}</div>
+    <q-tooltip
+    transition-show="flip-right"
+    transition-hide="flip-left"
+  >
+  <span style='margin-top:20px;'class="label text-white"> {{Name}} </span>
+  </q-tooltip>
 </q-card>`;
 
 

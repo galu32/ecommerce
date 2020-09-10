@@ -18,13 +18,26 @@ module.exports.extendApp = async function ({ app, ssr }) {
     });
 
     app.post('/stream', async (req,res) => {
-        let raw = req.body._raw;
-        let q = new query(raw);
-        try {
-            q = await q.fetch();
-            res.send(q);
-        }catch (err){
-            res.send({status:false, err:err});
+        let b = req.body;
+        let q ;
+        if (b.type === 'update'){
+            q = new query();
+            try{
+                q = await q.update(b);
+                res.send(q);
+            }
+            catch(err){
+                console.log(err);
+                res.send({status:false, err:err});
+            }
+        }else{
+            q = new query(b._raw);
+            try {
+                q = await q.fetch();
+                res.send(q);
+            }catch (err){
+                res.send({status:false, err:err});
+            }
         }
     });
 

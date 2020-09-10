@@ -39,17 +39,21 @@ class="bg-grey-1 rounded-borders"
                 </q-item-section>
             </q-item>
         <div v-if='!paymentCheckout'>
-            <div class='text-h4 text-primary align-right' style='display:inline-block;'> Your total: {{Total}}</div>
-            <q-btn color="primary" style='display:inline-block;' label="Check-Out" @click="checkout" />
+            <q-separator />
+            <div class='text-h5 text-primary align-right float-right' style='margin:10px;'> Your total: $ {{Total.toFixed(2)}}</div>
+            <q-btn color="primary" label="Check-Out" @click="checkout" style='width:100%;margin:10px;' />
         </div>
         <div v-else>
-            <div class='text-h3 text-primary align-right' style=''> Sub total (w/d): $ {{Total}}</div>
-            <div class='text-h3 text-primary align-right' style=''> Ship total     : $ {{ShipCost}}</div>
-            <div class='text-h3 text-primary align-right' style=''> Total          : $ {{ShipCost + Total}}</div>
+            <q-separator />
+            <div class='text-h5 text-primary float-right col-3' style=''>
+                <span class="label bg-primary text-white">Sub total (w/d): $ {{Total.toFixed(2)}} </span>
+                <span class="label bg-primary text-white">Ship total     : $ {{ShipCost.toFixed(2)}} </span>
+                <span class="label bg-primary text-white">Total          : $ {{(ShipCost + Total).toFixed(2)}} </span>
+            </div>
             <q-separator/>
             <div v-if='!PayMode.Online' class='text-h5 text-primary align-right' style=''>Selected offline pay method so seller will contact you son...
-            <q-btn color="primary" style='' label="Send Order" @click="sendOrder" /></div>
-            <q-btn v-else color="primary" style='' label="Pay me!" @click="processPayment" />
+            <q-btn color="primary" style='width:100%' label="Send Order" @click="sendOrder" /></div>
+            <q-btn v-else color="primary" style='width:100%' label="Pay me!" @click="processPayment" />
         </div>
         </q-list>
     </div>
