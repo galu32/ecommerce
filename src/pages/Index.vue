@@ -3,12 +3,13 @@
         <!-- <q-scroll-area
             style="height: 85vh; width: 100%;"
             class="bg-grey-1 rounded-borders"> -->
-        <q-img :src=HomeOptions.HeaderImage style='height: 430px; ' />
+        <q-img :src=HomeOptions.HeaderImage style='height: 430px; margin-top:15px;' />
         <MainItems />
+        <q-separator />
         <!-- <q-img :src=HeaderImage style='height: 400px' />
             <MainItems/> -->
         <!-- </q-scroll-area> -->
-        <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-page-sticky position="bottom-right" style='margin:10px;' :offset="[18, 18]">
             <q-btn fab icon="phone" color="primary" />
         </q-page-sticky>
     </q-page>

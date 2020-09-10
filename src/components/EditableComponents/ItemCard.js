@@ -4,7 +4,7 @@ let t = `<q-card style = 'display:inline-block; width: 35%; margin-top: 30px; he
 <q-separator />
     <q-scroll-area
     vertical
-    style="height: 550px; width: 100%; "
+    style="height: 580px; width: 100%; "
     class="bg-grey-1 rounded-borders"
     >
     <div class='text-h5 text-grey' style='margin:15px;'> {{Description}} </div>

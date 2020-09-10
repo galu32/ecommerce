@@ -3,14 +3,14 @@ let t = `<q-scroll-area
 style="height: 500px; width: 100%;"
 class="bg-grey-1 rounded-borders"
 >
-<div class='text-h2 text-primary'> Your Favorite Items: </div>
+<div class='text-h3 text-primary' style='margin:10px;'> Your Favorite Items: </div>
 <q-separator/>
 <div style=''>
     <ProductCard
         v-for='item in items'
         v-bind:key= item.Code
         v-bind = item
-        style='width:45%;display:inline-block; margin:5px;'
+        style='width:45%;display:inline-block; margin-left:16px;margin-top:16px;margin-bottom:16px;'
     />
 </div>
 </q-scroll-area>`;

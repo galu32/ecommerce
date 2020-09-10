@@ -24,7 +24,7 @@
                     :options="searchOptions"
                     @filter="search"
                     @input-value="setSearchModel"
-                    style="width: 50%; margin-right:15px; height:30px"
+                    style="width: 50%; margin-right:300px; height:30px"
                     class= "bg-white"
                 >
                     <template v-slot:no-option>
@@ -36,19 +36,21 @@
                     </template>
                 </q-select>
 
-                <q-btn v-if='!userobj' color="primary" label="INGRESAR" @click="loginPrompt = !loginPrompt" />
+                <!-- <q-btn v-if='!userobj' color="primary" label="INGRESAR" @click="loginPrompt = !loginPrompt" />
                 <q-btn v-if='userobj && userobj.Admin' color="primary" label="ADMIN" @click="adminModal = !adminModal" />
-                <q-btn v-if='userobj && !userobj.Admin' color="primary" label="ACCOUNT" @click="accountModal = !accountModal" />
-                <q-btn flat round color="white" icon ="shopping_cart" @click='cartModal = cartCounter ? !cartModal : $errorResponse("No cart items")'>
-                    <q-badge color="red" floating transparent>
-                        {{cartCounter}}
-                    </q-badge>
-                </q-btn>
-                <q-btn flat round color="white" icon ="favorite" @click='favoriteCard = favoriteCounter ? !favoriteCard : $errorResponse("No favorite items")'>
-                    <q-badge color="red" floating transparent>
-                        {{favoriteCounter}}
-                    </q-badge>
-                </q-btn>
+                <q-btn v-if='userobj && !userobj.Admin' color="primary" label="ACCOUNT" @click="accountModal = !accountModal" /> -->
+                <div style='margin:10px;'>
+                    <q-btn flat round color="white" icon ="shopping_cart" @click='cartModal = cartCounter ? !cartModal : $errorResponse("No cart items")'>
+                        <q-badge color="red" floating transparent>
+                            {{cartCounter}}
+                        </q-badge>
+                    </q-btn>
+                    <q-btn flat round color="white" icon ="favorite" @click='favoriteCard = favoriteCounter ? !favoriteCard : $errorResponse("No favorite items")'>
+                        <q-badge color="red" floating transparent>
+                            {{favoriteCounter}}
+                        </q-badge>
+                    </q-btn>
+                </div>
             </q-toolbar>
         </q-header>
 
@@ -59,6 +61,9 @@
             content-class="bg-grey-1"
         >
             <q-list>
+                <q-btn rounded text-color='primary' class='text-h5' style='width:90%; margin:15px; height:50px;' v-if='!userobj' color="white" label="INGRESAR" @click="loginPrompt = !loginPrompt" />
+                <q-btn rounded text-color='primary' class='text-h5' style='width:90%; margin:15px; height:50px;' v-if='userobj && userobj.Admin' color="white" label="ADMIN" @click="adminModal = !adminModal" />
+                <q-btn rounded text-color='primary' class='text-h5' style='width:90%; margin:15px; height:50px;' v-if='userobj && !userobj.Admin' color="white" label="ACCOUNT" @click="accountModal = !accountModal" />
                 <q-item
                     clickable
                     tag="a"
@@ -74,19 +79,6 @@
                     </q-item-section>
                 </q-item>
                 <q-separator />
-                <q-item-label
-                    header
-                    class="text-primary"
-                >
-                    Categorias:
-                    <!-- <q-separator /> -->
-                </q-item-label>
-                <q-separator />
-                <CategoryItem
-                    v-for="link in essentialLinks"
-                    :key="link.Name"
-                    v-bind="link"
-                />
                 <q-item
                     clickable
                     tag="a"
@@ -107,6 +99,19 @@
                 </q-item>
                 <q-separator />
             </q-list>
+            <q-item-label
+                header
+                class="text-primary"
+            >
+                Categorias:
+                <!-- <q-separator /> -->
+            </q-item-label>
+            <q-separator />
+            <CategoryItem
+                v-for="link in essentialLinks"
+                :key="link.Name"
+                v-bind="link"
+            />
         </q-drawer>
 
         <q-page-container>

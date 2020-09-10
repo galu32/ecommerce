@@ -1,23 +1,16 @@
 <template>
-    <q-footer v-if='HomeOptions.ShowFooter' elevated>
-        <q-card
-            class = 'bg-primary'
-            style = 'height: 100px'
-        >
-            <div v-if ='$store.state.paymethods.length'>
-                <!-- <q-card-section vertical style='margin:0;padding:0;'>
-                    Avaible Payment Methods:
-                </q-card-section> -->
-                <q-card-section vertical>
-                    <!-- <q-avatar size='30px'
-                              stlye='margin:0;padding:0;'
-                              v-for='p in $store.state.paymethods'
-                              v-bind:key= p.Code> -->
-                    <img style='height:75px; width: 220px' src='mp.png'>
-                    <!-- </q-avatar> -->
-                </q-card-section>
+    <q-footer v-if='HomeOptions.ShowFooter' reveal elevated>
+        <div class="container" style='height:70px;'>
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text" style='margin:25px;'>Footer Content</h5>
+                    <!-- <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p> -->
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 style='margin:25px;' class="white-text">Links....</h5>
+                </div>
             </div>
-        </q-card>
+        </div>
     </q-footer>
 </template>
 
