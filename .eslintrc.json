@@ -1,0 +1,26 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": "plugin:vue/essential",
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "vue"
+    ],
+    "rules": {
+        "indent": ["error", 4],
+        "no-var": "error",
+        "semi": [2, "always", {"omitLastInOneLineBlock": false}],
+        "vue/html-indent": ["error", 4, {
+            "attribute": 1,
+            "baseIndent": 1,
+            "alignAttributesVertically": true,
+            "ignores": []
+          }]
+    }
+}
