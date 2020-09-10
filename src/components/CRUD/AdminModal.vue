@@ -45,7 +45,7 @@
             <Setting Model = 'PayMethod'/>
         </q-card>
         <q-card v-if='tab === "ShipMethod"'>
-            <Setting Model = 'ShiMailSettingspMethod'/>
+            <Setting Model = 'ShipMethod'/>
         </q-card>
         <q-card v-if='tab === "MailSettings"'>
             <Setting Model = 'MailSettings'/>

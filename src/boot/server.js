@@ -3,7 +3,6 @@ export default async ({ app, store, Vue }) => {
 
     //register editable components after init server resources / store
     if (typeof window !== 'undefined') {
-        console.log(store.state.comps);
         for (let c of store.state.comps){
             let cc = require('components/EditableComponents/'+c);
             cc.init(Vue,store);
@@ -50,7 +49,6 @@ export default async ({ app, store, Vue }) => {
         authcontext.set(tk,true);
         store.replaceState({tk,items,coupons,shipmethods,paymethods,categories,subcategories,editableComponents,home,allmodels,comps});
 
-        console.log(comps);
         for (let c of comps){
             let cc = require('src/components/EditableComponents/'+c);
             cc.init(Vue,store);

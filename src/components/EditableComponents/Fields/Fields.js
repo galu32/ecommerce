@@ -117,7 +117,7 @@ module.exports.init = function (Vue, store){
     for (let f in fields){
         let noglobalprops = {};
         if (f === 'set') {
-            noglobalprops.linkto = {required: true, type:String};
+            noglobalprops.linkto = {required: true};
             noglobalprops.multiple = {default: true, type:Boolean};
         }
         Vue.component(f, {
@@ -138,7 +138,10 @@ module.exports.init = function (Vue, store){
             },
             mounted () {
                 if (f === 'set'){
-                    this.options = this.$store.state[this.linkto.toLowerCase()].map(r => r.Code);
+                    if (typeof this.linkto === 'string')
+                        this.options = this.$store.state[this.linkto.toLowerCase()].map(r => r.Code);
+                    else
+                        this.options = this.linkto;
                 }else if (f === 'boolean'){
                     if (typeof this.value === 'undefined')
                         this.content = false;

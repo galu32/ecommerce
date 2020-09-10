@@ -10,7 +10,6 @@ module.exports.extendApp = async function ({ app, ssr }) {
     app.use(cookieParser());
 
     app.use(async (req,res,next) => {
-        console.log(authcontext);
         //esto no esta bien, manejar el contexto con un Map() es cualquier cosa.
         //funciona para avanzar si no compilo en produccion si no se pierden los valores. VER!
         let ctx = authcontext.get(req.headers.authorization);

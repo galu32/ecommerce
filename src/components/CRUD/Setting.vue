@@ -1,57 +1,63 @@
 <template>
+
     <div class="q-pa-md">
         <div class="text-h6 text-primary">Settings {{Model}}:</div>
-        <q-table
-            v-if = '!singleton'
-            :data="Items"
-            :columns="Columns"
-            row-key="internalId"
-            :filter="filter"
-            :grid="$q.screen.xs"
-            @row-click='click'
-            :visible-columns = visibleColumns
-        >
-            <template v-slot:top-right>
-                <q-select
-                    filled
-                    v-model="visibleColumns"
-                    multiple
-                    v-bind:options = 'Fields.map(f => f.field)'
-                />
-                <!-- <q-separator/> -->
-                <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                    <template v-slot:append>
-                        <q-icon name="search" />
-                    </template>
-                </q-input>
-            </template>
-        </q-table>
-        <q-separator/>
-        <q-card>
-            <q-card-section>
-                <div class="text-h6 text-primary">New :</div>
-            </q-card-section>
-            <q-card-section >
-                <div
-                    style = 'width:25%; display: inline-block; padding: 10px'
-                    v-for='f in Fields'
-                    v-bind:key = f.field>
-                    <component v-if='f.type !== "component"' :is="f.type" v-bind='f' v-model='f.value' style = ''/>
-                    <component v-else :is="'Field' + f.field" :value='f.value' style = ''/>
-                </div>
-            </q-card-section>
-            <q-card-section >
-                <q-btn
-                    v-if = '!singleton'
-                    color="primary" label="Clear" @click="getFields" class='' />
-                <q-btn
-                    v-if = 'showSave'
-                    color="primary" label="Save" @click="save" class='' />
-                <q-btn
-                    v-if = 'currentRow'
-                    color="primary" label="Delete" @click="deleteRow" class='' />
-            </q-card-section>
-        </q-card>
+        <div v-if ='schema'>
+            <component :is = 'schema' />
+        </div>
+        <div v-else>
+            <q-table
+                v-if = '!singleton'
+                :data="Items"
+                :columns="Columns"
+                row-key="internalId"
+                :filter="filter"
+                :grid="$q.screen.xs"
+                @row-click='click'
+                :visible-columns = visibleColumns
+            >
+                <template v-slot:top-right>
+                    <q-select
+                        filled
+                        v-model="visibleColumns"
+                        multiple
+                        v-bind:options = 'Fields.map(f => f.field)'
+                    />
+                    <!-- <q-separator/> -->
+                    <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+                        <template v-slot:append>
+                            <q-icon name="search" />
+                        </template>
+                    </q-input>
+                </template>
+            </q-table>
+            <q-separator/>
+            <q-card>
+                <q-card-section>
+                    <div class="text-h6 text-primary">New :</div>
+                </q-card-section>
+                <q-card-section >
+                    <div
+                        style = 'width:25%; display: inline-block; padding: 10px'
+                        v-for='f in Fields'
+                        v-bind:key = f.field>
+                        <component v-if='f.type !== "component"' :is="f.type" v-bind='f' v-model='f.value' style = ''/>
+                        <component v-else :is="'Field' + f.field" :value='f.value' style = ''/>
+                    </div>
+                </q-card-section>
+                <q-card-section >
+                    <q-btn
+                        v-if = '!singleton'
+                        color="primary" label="Clear" @click="getFields" class='' />
+                    <q-btn
+                        v-if = 'showSave'
+                        color="primary" label="Save" @click="save" class='' />
+                    <q-btn
+                        v-if = 'currentRow'
+                        color="primary" label="Delete" @click="deleteRow" class='' />
+                </q-card-section>
+            </q-card>
+        </div>
     </div>
 </template>
 
@@ -78,6 +84,7 @@ export default {
             currentRow: null,
             visibleColumns: [],
             singleton: false,
+            schema: null,
         };
     },
     watch: {
@@ -126,6 +133,9 @@ export default {
             await this.load();
         },
         load: async function(){
+            let Model = new this.$models[this.Model]();
+            if (Model.isSchema()) return this.schema = Model.getSchemaName();
+            else this.schema = null;
             this.currentRow = null;
             this.Fields = [];
             await this.getRows();
