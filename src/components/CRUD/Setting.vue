@@ -37,13 +37,30 @@
                     <div class="text-h6 text-primary">New :</div>
                 </q-card-section>
                 <q-card-section >
-                    <div
-                        style = 'width:25%; display: inline-block; padding: 10px'
-                        v-for='f in Fields'
-                        v-bind:key = f.field>
-                        <component v-if='f.type !== "component"' :is="f.type" v-bind='f' v-model='f.value' style = ''/>
-                        <component v-else :is="'Field' + f.field" :value='f.value' style = ''/>
-                    </div>
+                    <q-tabs
+                        v-model="tab"
+                        dense
+                        align="left"
+                        class="bg-primary text-white shadow-2"
+                        :breakpoint="0"
+                    >
+                        <!-- <q-tab name="General" label='General' /> -->
+                        <q-tab
+                            v-for = 't in tabs'
+                            :key = 't' 
+                            :name = 't'
+                            :label = 't'
+                        />
+                    </q-tabs>
+                    <q-card>
+                        <div
+                            style = 'width:25%; display: inline-block; padding: 10px'
+                            v-for='f in tabFields'
+                            v-bind:key = f.field>
+                            <component v-if='f.type !== "component"' :is="f.type" v-bind='f' v-model='f.value' style = ''/>
+                            <component v-else :is="'Field' + f.field" :value='f.value' style = ''/>
+                        </div>
+                    </q-card>
                 </q-card-section>
                 <q-card-section >
                     <q-btn
@@ -85,11 +102,17 @@ export default {
             visibleColumns: [],
             singleton: false,
             schema: null,
+            tab : '',
+            tabs: [],
+            tabFields: [],
         };
     },
     watch: {
         Model: async function (){
             await this.load();
+        },
+        tab: function (){
+            this.tabFields = this.Fields.filter(r => r.tab === this.tab);
         }
     },
     async mounted(){
@@ -164,11 +187,18 @@ export default {
                         readonly: Fields[f].readonly || false,
                         required: Fields[f].required,
                         linkto: Fields[f].linkto,
-                        type: Fields[f].type
+                        type: Fields[f].type,
+                        tab: Fields[f].tab || 'General',
                     };
                     return i;
                 });
             this.singleton = Model.__singleton;
+            let ts = this.Fields.map(r => r.tab).filter((v, i, a) => {
+                if (v)
+                    return  a.indexOf(v) === i;
+            }); 
+            this.tabs = ts;
+            this.tab = 'General';
             if (this.singleton) await this.loadSingleton();
         },
         loadSingleton: async function () {

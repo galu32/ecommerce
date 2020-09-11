@@ -4,6 +4,8 @@
             style="height: 85vh; width: 100%;"
             class="bg-grey-1 rounded-borders"> -->
         <q-img :src=HomeOptions.HeaderImage style='height: 430px; margin-top:15px;' />
+        <!-- <q-skeleton width="100%" height="430px" /> -->
+
         <MainItems style='padding:15px;'/>
         <q-separator />
         <!-- <q-img :src=HeaderImage style='height: 400px' />
@@ -29,10 +31,13 @@ export default {
     data() {
         return {
             HomeOptions: {},
+            // Inited: false
         };
     },
     async mounted() {
         this.HomeOptions = this.$store.state.home[0];
+        let self = this;
+        // setTimeout(() =>  self.Inited = true, 3000);
         // let q = this.$query;
         // q = await q.select(["*"]).from('Item').fetch()
         // this.$resourcecs = await this.$axios.post('/fetch_resources')

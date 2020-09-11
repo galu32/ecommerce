@@ -44,10 +44,18 @@ export default async ({ app, store, Vue }) => {
         let fields = fs.readdirSync(path+'Fields');
         comps = [...comps.filter(r => r.endsWith('.js')), ...fields.map(r => 'Fields/'+r)];
 
-        let tk = Math.random().toString();
-        tk = tk.substring(2,tk.length);
-        authcontext.set(tk,true);
-        store.replaceState({tk,items,coupons,shipmethods,paymethods,categories,subcategories,editableComponents,home,allmodels,comps});
+        store.replaceState({
+            items,
+            coupons,
+            shipmethods,
+            paymethods,
+            categories,
+            subcategories,
+            editableComponents,
+            home,
+            allmodels,
+            comps
+        });
 
         for (let c of comps){
             let cc = require('src/components/EditableComponents/'+c);

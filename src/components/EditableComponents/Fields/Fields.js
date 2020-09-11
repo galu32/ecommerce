@@ -27,7 +27,8 @@ let globals = {
             required: true,
         },
         readonly: {
-            required: true,
+            required: false,
+            default: false,
             type: Boolean
         },
         field : {

@@ -1,21 +1,42 @@
+const { EDESTADDRREQ } = require('constants');
+
 module.exports.extendApp = async function ({ app, ssr }) {
     console.log(Date());
     const {query, models, authcontext} = require('oo');
     const express = require('express');
-    const cookieParser = require('cookie-parser'); // remplazar por session
+    // const cookieParser = require('cookie-parser'); // remplazar por session
 
     await models.syncModels();
 
     app.use(express.json());
-    app.use(cookieParser());
+    // app.use(cookieParser());
 
-    app.use(async (req,res,next) => {
-        //esto no esta bien, manejar el contexto con un Map() es cualquier cosa.
-        //funciona para avanzar si no compilo en produccion si no se pierden los valores. VER!
-        let ctx = authcontext.get(req.headers.authorization);
-        if (!ctx) return res.send({status:false, res:'No authorized.'});
-        next();
-    });
+    // app.use(async (req,res,next) => {
+    //     //esto no esta bien, manejar el contexto con un Map() es cualquier cosa.
+    //     //funciona para avanzar si no compilo en produccion si no se pierden los valores. VER!
+    //     let ctx = authcontext.get(req.headers.authorization);
+    //     if (!ctx) return res.send({status:false, res:'No authorized.'});
+    //     next();
+    // });
+
+    const session = require('express-session');
+    app.use(session({
+        secret: '2C44-4D44-WppQ38S',
+        resave: true,
+        saveUninitialized: true,
+        cookie: { secure: false }
+    }));
+
+    // app.use(async (req,res,next) => {
+    //     if (!req.session.id && req.session.path === '/login') {
+    //         let rand = Math.random().toString();
+    //         rand = rand.substring(2,rand.length);
+    //         req.session.id = rand;
+    //     }else{
+    //         return res.send({status:false, res: 'No authorized!'});
+    //     }
+    //     next();
+    // });
 
     app.post('/stream', async (req,res) => {
         let b = req.body;
@@ -47,9 +68,8 @@ module.exports.extendApp = async function ({ app, ssr }) {
     });
 
     app.post('/login', async (req,res) => {
-        if (typeof req.cookies.login !== 'undefined'){
-            let u = authcontext.get(req.cookies.login);
-            if (u) return res.send({status:true, user:u});
+        if (typeof req.session.userobj !== 'undefined'){
+            res.send({status:true, user:req.session.userobj});
         }
         if (!Object.keys(req.body).length) return {status: false};
         let raw = 'SELECT * FROM User WHERE ';
@@ -64,10 +84,14 @@ module.exports.extendApp = async function ({ app, ssr }) {
         q = await q.fetch();
         if (!q.length == 1) return res.send({status:false});
 
-        let rand = Math.random().toString();
-        rand = rand.substring(2,rand.length);
-        res.cookie('login',rand, { maxAge: 1500000, httpOnly: true });
-        authcontext.set(rand,q[0]);
+        // let rand = Math.random().toString();
+        // rand = rand.substring(2,rand.length);
+        // res.cookie('login',rand, { maxAge: 1500000, httpOnly: true });
+        // authcontext.set(rand,q[0]);
+        req.session.user = q[0].Username;
+        req.session.admin = q[0].Admin;
+        req.session.email = q[0].Email;
+        req.session.userobj = q[0];
 
         res.send({status:true, user:q[0]});
     });
