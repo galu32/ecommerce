@@ -59,7 +59,7 @@ import Setting from './Setting.vue';
 export default {
     components: {Setting},
     name: 'AdminModal',
-    data () {
+    data() {
         return {
             tab: 'Home'
         };

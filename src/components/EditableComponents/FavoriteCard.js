@@ -24,14 +24,14 @@ module.exports.init = function (Vue,store){
         template: st || t,
         components: {...q},
         name: 'FavoriteCard',
-        data () {
+        data() {
             return {
                 favs: [],
                 items: []
             };
         },
         methods: {
-            loadItems: function(){
+            loadItems: function (){
                 this.items = [];
                 this.favs = Object.keys(localStorage).filter(r => r.startsWith('fav') && localStorage.getItem(r) == 1);
                 for (let f of this.favs){
@@ -40,7 +40,7 @@ module.exports.init = function (Vue,store){
                 }
             }
         },
-        mounted () {
+        mounted() {
             let self = this;
             this.loadItems();
             this.$bus.$on('newFav', self.loadItems);

@@ -20,7 +20,7 @@ export default function (/* { ssrContext } */) {
             // example
         },
         mutations: {
-            set (state, value) {
+            set(state, value) {
                 state[value.key] = value.value;
             }
         },

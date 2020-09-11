@@ -26,7 +26,7 @@ export default {
     components: {},
     props: {
     },
-    data () {
+    data() {
         return {
             Fields: [
                 {field: 'Name', type: 'text', value:null},
@@ -36,7 +36,7 @@ export default {
             ]
         };
     },
-    async mounted () {
+    async mounted() {
     },
     watch: {
     },

@@ -29,13 +29,13 @@ export default {
     name: 'ItemsGrid',
     props: {
     },
-    data () {
+    data() {
         return {
             Items: [],
             CatName: '',
         };
     },
-    mounted () {
+    mounted() {
         this.loadItems();
     },
     methods: {

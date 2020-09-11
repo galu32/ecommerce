@@ -42,14 +42,14 @@
 export default {
     components: {},
     name: 'AccountModal',
-    data () {
+    data() {
         return {
             tab: 'Account',
             model: null,
             Fields: [],
         };
     },
-    mounted () {
+    mounted() {
         let cls = this.$models.User;
         cls = new cls();
         this.model = cls;
@@ -57,7 +57,7 @@ export default {
         this.loadUserFields();
     },
     methods: {
-        getFields: function() {
+        getFields: function () {
             this.Fields = [];
             let Fields = this.model.fields;
             this.Fields = Object.keys(Fields).filter(f => !Fields[f].internal && f !== 'Admin')
@@ -89,7 +89,7 @@ export default {
             if (res.status && res.res.errno) return this.$errorResponse(res.res.sqlMessage);
             await this.updateContext();
         },
-        logout: function() {
+        logout: function () {
             this.$bus.$emit('logout');
             this.$store.commit('set', {key:'user', value:null});
         },

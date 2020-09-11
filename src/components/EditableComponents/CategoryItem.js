@@ -91,13 +91,13 @@ module.exports.init = function (Vue,store){
                 default : '',
             }
         },
-        data () {
+        data() {
             return {
                 SubCategories : [],
                 refCode : ''
             };
         },
-        mounted () {
+        mounted() {
             this.SubCategories = this.$store.state.subcategories.filter(r => r.Parent === this.Code);
         },
         methods: {

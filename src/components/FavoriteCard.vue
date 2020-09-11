@@ -21,14 +21,14 @@ import ProductCard from './ProductCard.vue';
 export default {
     components: {ProductCard},
     name: 'FavoriteCard',
-    data () {
+    data() {
         return {
             favs: [],
             items: []
         };
     },
     methods: {
-        loadItems: function(){
+        loadItems: function (){
             this.items = [];
             this.favs = Object.keys(localStorage).filter(r => r.startsWith('fav') && localStorage.getItem(r) == 1);
             for (let f of this.favs){
@@ -37,7 +37,7 @@ export default {
             }
         }
     },
-    mounted () {
+    mounted() {
         let self = this;
         this.loadItems();
         this.$bus.$on('newFav', self.loadItems);

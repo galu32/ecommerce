@@ -12,11 +12,11 @@ export default {
     components: {ItemsGrid},
     props: {
     },
-    data () {
+    data() {
         return {
         };
     },
-    async mounted () {
+    async mounted() {
     }
 };
 </script>

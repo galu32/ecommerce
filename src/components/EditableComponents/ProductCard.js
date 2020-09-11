@@ -51,7 +51,7 @@ module.exports.init = function (Vue, store){
         
         },
         name: 'ProductCard',
-        data () {
+        data() {
             return {
                 fav: false,
             };
@@ -88,7 +88,7 @@ module.exports.init = function (Vue, store){
                 this.$bus.$emit('newCart');
             }
         },
-        mounted () {
+        mounted() {
             if (!this.Code) return;
             let self = this;
             this.checkIfFav();

@@ -75,7 +75,7 @@ export default {
             default: true,
         }
     },
-    data () {
+    data() {
         return {
             Items : [],
             Columns: [],
@@ -88,7 +88,7 @@ export default {
         };
     },
     watch: {
-        Model: async function(){
+        Model: async function (){
             await this.load();
         }
     },
@@ -132,7 +132,7 @@ export default {
             if (res.status && res.res.errno) return this.$errorResponse(res.res.sqlMessage);
             await this.load();
         },
-        load: async function(){
+        load: async function (){
             let Model = new this.$models[this.Model]();
             if (Model.isSchema()) return this.schema = Model.getSchemaName();
             else this.schema = null;
@@ -142,7 +142,7 @@ export default {
             await this.getFields();
             this.getColumns();
         },
-        getColumns: function(){
+        getColumns: function (){
             this.Columns = this.Fields.map(r => 
                 ({ name: r.field, align: 'center', label: r.field, field: r.field, sortable: false }),
             );

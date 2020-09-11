@@ -36,13 +36,13 @@ module.exports.init = function (Vue,store){
         name: 'MainItems',
         props: {
         },
-        data () {
+        data() {
             return {
                 MainProdcuts : [],
                 title: "",
             };
         },
-        mounted () {
+        mounted() {
             this.MainProdcuts = this.$store.state.items.filter(r => r.HomePage);
             this.title = "Ofertas (" + this.MainProdcuts.length + ")";
         }

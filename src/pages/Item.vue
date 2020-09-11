@@ -17,12 +17,12 @@ export default {
     components: {},
     props: {
     },
-    data () {
+    data() {
         return {
             Item: null,
         };
     },
-    async mounted () {
+    async mounted() {
         this.getItem();
     },
     watch: {

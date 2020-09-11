@@ -174,7 +174,7 @@ const _ = require('lodash');
 export default {
     name: 'MainLayout',
     components: {MainFooter, AdminModal, AccountModal}, //re-name
-    data () {
+    data() {
         return {
             leftDrawerOpen: false,
             essentialLinks: [],
@@ -194,7 +194,7 @@ export default {
         };
     },
     methods: {
-        getFavoriteCounter: function() {
+        getFavoriteCounter: function () {
             this.favoriteCounter = Object.keys(localStorage).filter(r => r.startsWith('fav') && localStorage.getItem(r) == 1).length;
         },
         getCartcounter: function () {

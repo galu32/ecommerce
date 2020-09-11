@@ -19,12 +19,12 @@ export default {
     props: {
     },
     name: 'MainFooter',
-    data () {
+    data() {
         return {
             HomeOptions : {},
         };
     },
-    mounted () {
+    mounted() {
         this.HomeOptions = this.$store.state.home[0];
     }
 };

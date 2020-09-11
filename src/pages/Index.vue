@@ -4,13 +4,13 @@
             style="height: 85vh; width: 100%;"
             class="bg-grey-1 rounded-borders"> -->
         <q-img :src=HomeOptions.HeaderImage style='height: 430px; margin-top:15px;' />
-        <MainItems />
+        <MainItems style='padding:15px;'/>
         <q-separator />
         <!-- <q-img :src=HeaderImage style='height: 400px' />
             <MainItems/> -->
         <!-- </q-scroll-area> -->
         <q-page-sticky position="bottom-right" style='margin:10px;' :offset="[18, 18]">
-            <q-btn fab icon="phone" color="primary" />
+            <q-btn fab icon='mail' color="primary" />
         </q-page-sticky>
     </q-page>
 
@@ -26,12 +26,12 @@ export default {
         //     default: 'https://cdn.quasar.dev/img/parallax2.jpg'
         // }
     },
-    data () {
+    data() {
         return {
             HomeOptions: {},
         };
     },
-    async mounted () {
+    async mounted() {
         this.HomeOptions = this.$store.state.home[0];
         // let q = this.$query;
         // q = await q.select(["*"]).from('Item').fetch()

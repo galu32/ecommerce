@@ -128,7 +128,7 @@ module.exports.init = function (Vue, store){
                 prop: 'v-model',
                 event: 'input'
             },
-            data () {
+            data() {
                 let def = {
                     content: this.value
                 };
@@ -136,7 +136,7 @@ module.exports.init = function (Vue, store){
                     def.options = [];
                 return def;
             },
-            mounted () {
+            mounted() {
                 if (f === 'set'){
                     if (typeof this.linkto === 'string')
                         this.options = this.$store.state[this.linkto.toLowerCase()].map(r => r.Code);

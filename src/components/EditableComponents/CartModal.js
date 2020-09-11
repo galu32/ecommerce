@@ -79,7 +79,7 @@ module.exports.init = function (Vue,store){
         template: st || t,
         components: {...q},
         name: 'CartModal',
-        data () {
+        data() {
             return {
                 items: [],
                 coupon: '',
@@ -165,7 +165,7 @@ module.exports.init = function (Vue,store){
         },
         watch : {
         },
-        mounted () {
+        mounted() {
             let self = this;
             this.load();
             this.$bus.$on('newCart', self.load);

@@ -65,12 +65,12 @@ module.exports.init = function (Vue,store){
                 default: false,
             }
         },
-        data () {
+        data() {
             return {
                 Qty: 0
             };
         },
-        mounted () {
+        mounted() {
             let self = this;
             let i = Object.keys(localStorage).find(r => 
                 r.startsWith('cart') && r.replace('cart','') === self.Code

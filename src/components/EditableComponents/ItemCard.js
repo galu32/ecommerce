@@ -60,7 +60,7 @@ module.exports.init = function (Vue, store){
         
         },
         name: 'ItemCard',
-        data () {
+        data() {
             return {
                 Qty: 1,
                 fav: false,
@@ -99,12 +99,12 @@ module.exports.init = function (Vue, store){
             },
         },
         watch: {
-            Qty: function(nv,ov){
+            Qty: function (nv,ov){
                 if (nv > ov) this.CurrentPrice += this.Price;
                 if (nv < ov) this.CurrentPrice -= this.Price;
             }
         },
-        mounted () {
+        mounted() {
             this.fav = parseInt(localStorage.getItem('fav'+this.Code));
         }
 

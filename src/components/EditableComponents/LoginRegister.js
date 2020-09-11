@@ -73,7 +73,7 @@ module.exports.init = function (Vue, store){
             }
         },
         name: 'LoginRegister',
-        data () {
+        data() {
             return {
                 loginType: true,
                 openModal: false,
@@ -121,7 +121,7 @@ module.exports.init = function (Vue, store){
                 this.openModal = this.open;
             }
         },
-        mounted () {
+        mounted() {
             let self = this;
             this.$bus.$on('openModal', (m) => {
                 if (m === 'register'){
