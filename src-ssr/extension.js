@@ -20,7 +20,7 @@ module.exports.extendApp = async function ({ app, ssr }) {
     app.post('/stream', async (req,res) => {
         let b = req.body;
         let q ;
-        if (b.type === 'update'){
+        if (b.type === 'update' || b.type === 'insert'){
             q = new query();
             try{
                 q = await q.update(b);
@@ -42,7 +42,7 @@ module.exports.extendApp = async function ({ app, ssr }) {
     });
 
     app.post('/logout', async (req,res) => {
-        authcontext.delete(req.cookies.login);
+        req.session.destroy();
         res.send({status:true, res: 'ok!'});
     });
 
