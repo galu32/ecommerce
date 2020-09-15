@@ -91,7 +91,7 @@ let fields = { //el nombre del componente es igual al tipo de campo en la clase 
             :options='options'
             use-chips
             stack-label
-            :label=field
+            :hint=field
             v-on:keyup.enter="submit"
         />`
     ,

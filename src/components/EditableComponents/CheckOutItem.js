@@ -2,7 +2,7 @@ let t = `
 <q-item>
 <q-item-section avatar top>
   <q-avatar>
-      <img :src=Image>
+      <img :src="Image.split(',')[0]">
   </q-avatar>
 </q-item-section>
 

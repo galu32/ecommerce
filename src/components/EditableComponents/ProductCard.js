@@ -4,7 +4,7 @@ let t = `<q-card style='' to='/'>
         <router-link :to=getPath() style = ' width: 100%;'>
             <q-img
                 style="height: 200px ; object-fit: cover;"
-                :src='Image'
+                :src='Image.split(",")[0]'
             />
         </router-link>
         <q-card-actions vertical class="justify-around">

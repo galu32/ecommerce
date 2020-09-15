@@ -58,7 +58,7 @@
                             v-for='f in tabFields'
                             v-bind:key = f.field>
                             <component v-if='f.type !== "component"' :is="f.type" v-bind='f' v-model='f.value' style = ''/>
-                            <component v-else :is="'Field' + f.field" :value='f.value' style = ''/>
+                            <component v-else :is="'Field' + f.field" v-model='f.value' v-bind='f' style = ''/>
                         </div>
                     </q-card>
                 </q-card-section>
@@ -170,7 +170,7 @@ export default {
             this.Columns = this.Fields.map(r => 
                 ({ name: r.field, align: 'center', label: r.field, field: r.field, sortable: false }),
             );
-            this.visibleColumns = this.Fields.map(r => r.field);
+            this.visibleColumns = this.Fields.filter(r => r.type !== 'component').map(r => r.field);
         },
         getRows: async function () {
             let items = await this.$query.select(['*']).from(this.Model).fetch();

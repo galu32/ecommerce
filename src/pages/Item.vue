@@ -17,17 +17,11 @@
                 height="73vh"
                 class="bg-white text-white shadow-1 rounded-borders"
             >
-                <q-carousel-slide name="style" class="column no-wrap flex-center">
-                    <q-img :src='Item.Image' style='width:100%'/>
-                </q-carousel-slide>
-                <q-carousel-slide name="3" class="column no-wrap flex-center">
-                    <q-img :src='Item.Image' style='width:100%'/>
-                </q-carousel-slide>
-                <q-carousel-slide name="2" class="column no-wrap flex-center">
-                    <q-img :src='Item.Image' style='width:100%'/>
-                </q-carousel-slide>
-                <q-carousel-slide name="1" class="column no-wrap flex-center">
-                    <q-img :src='Item.Image' style='width:100%'/>
+                <q-carousel-slide 
+                    v-for = 'i in Images'
+                    :key = 'i'
+                    :name='i' class="column no-wrap flex-center">
+                    <q-img :src='i' style='width:100%'/>
                 </q-carousel-slide>
             </q-carousel>
             <!-- <q-img
@@ -48,11 +42,14 @@ export default {
     data() {
         return {
             Item: null,
-            slide: 'style'
+            slide: '',
+            Images: []
         };
     },
     async mounted() {
         this.getItem();
+        this.Images = this.Item.Image.split(',');
+        this.slide = this.Images[0];
     },
     watch: {
         '$route.params.code': function (nv) {
