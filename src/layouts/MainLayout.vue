@@ -8,7 +8,7 @@
                     round
                     icon="menu"
                     aria-label="Menu"
-                    @click="leftDrawerOpen = !leftDrawerOpen"
+                    @click="leftDrawerOpen = !leftDrawerOpen; cartModal = leftDrawerOpen ? false: cartModal ? false:false"
                 />
                 <q-toolbar-title>
                     {{Title}}
@@ -35,12 +35,8 @@
                         </q-item>
                     </template>
                 </q-select>
-
-                <!-- <q-btn v-if='!userobj' color="primary" label="INGRESAR" @click="loginPrompt = !loginPrompt" />
-                <q-btn v-if='userobj && userobj.Admin' color="primary" label="ADMIN" @click="adminModal = !adminModal" />
-                <q-btn v-if='userobj && !userobj.Admin' color="primary" label="ACCOUNT" @click="accountModal = !accountModal" /> -->
                 <div style='margin:10px;'>
-                    <q-btn flat round color="white" icon ="shopping_cart" @click='cartModal = cartCounter ? !cartModal : $errorResponse("No cart items")'>
+                    <q-btn flat round color="white" icon ="shopping_cart" @click='cartModal = cartCounter ? !cartModal : $errorResponse("No cart items"); leftDrawerOpen = cartModal ? false:true'>
                         <q-badge color="red" floating transparent>
                             {{cartCounter}}
                         </q-badge>
@@ -150,11 +146,17 @@
             </q-card> -->
             <FavoriteCard/>
         </q-dialog>
-        <q-dialog v-model="cartModal">
-            <!-- <q-card class="">
-            </q-card> -->
+        <!-- <q-dialog v-model="cartModal">
             <CartModal/>
-        </q-dialog>
+        </q-dialog> -->
+        <q-drawer
+            bordered
+            content-class="bg-grey-1"
+            side = "right"
+            v-model = 'cartModal'
+        >
+            <CartDrawer />
+        </q-drawer>
         <q-dialog v-model="accountModal">
             <!-- <q-card class="">
             </q-card> -->
@@ -200,6 +202,10 @@ export default {
         getCartcounter: function () {
             let cartCounter = Object.keys(localStorage).filter(r => r.startsWith('cart')).map(r => parseInt(localStorage.getItem(r)));
             this.cartCounter = _.sum(cartCounter);
+            if (this.cartCounter === 0) {
+                this.cartModal = false;
+                this.leftDrawerOpen = true;
+            }
 
         },
         search: function (val,upd,abort) {
@@ -218,9 +224,13 @@ export default {
             // if (this.$route.path.includes('/item/')) v = i.Code;
             this.$router.push({ name:'item', params: {code: i.Code}});
         },
+        closeAll: function (e){
+            console.log(123);
+        }
     },
 
     async mounted(){
+        console.log(this.$store.state);
         let self = this;
         this.Title = this.$store.state.home[0].Title;
         this.essentialLinks = this.$store.state.categories;
@@ -236,7 +246,10 @@ export default {
         });
         this.searchOptions = this.$store.state.items.map(r => r.Name);
         let res = await this.$axios.post('login');
-        if (res.data && res.data.status) this.userobj = res.data.user;
+        if (res.data && res.data.status) {
+            this.userobj = res.data.user;
+            this.$store.commit('set', {key:'user', value:res.data.user});
+        }
     }
 };
 </script>

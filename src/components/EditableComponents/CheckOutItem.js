@@ -22,9 +22,9 @@ let t = `
           v-model.number="Qty"
           type="number"
           filled
-          style="max-width: 100px; display: inline-block;"
+          style="max-width: 50px; display: inline-block;"
       />
-    <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click='deleteCart' />
+    <q-btn v-if='!disable' class="gt-xs" size="12px" flat dense round icon="delete" @click='deleteCart' />
   </div>
 </q-item-section>
 </q-item>
@@ -72,13 +72,12 @@ module.exports.init = function (Vue,store){
         },
         mounted() {
             let self = this;
-            let i = Object.keys(localStorage).find(r => 
-                r.startsWith('cart') && r.replace('cart','') === self.Code
-            );
-            this.Qty = parseInt(localStorage.getItem(i));
+            this.$bus.$on('newCart', self.getQty);
+            this.getQty();
         },
         watch : {
             Qty: function (newv,oldv) {
+                let self = this;
                 if (oldv === 0) return;
                 localStorage.setItem('cart'+this.Code, parseInt(newv));
                 this.$bus.$emit('newCart');
@@ -89,7 +88,14 @@ module.exports.init = function (Vue,store){
                 if (this.disable) return;
                 localStorage.removeItem('cart'+this.Code);
                 this.$bus.$emit('newCart');
-            }
+            },
+            getQty: function () {
+                let self = this;
+                let i = Object.keys(localStorage).find(r => 
+                    r.startsWith('cart') && r.replace('cart','') === self.Code
+                );
+                this.Qty = parseInt(localStorage.getItem(i));
+            },
         }
     });
 };

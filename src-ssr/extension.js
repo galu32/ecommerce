@@ -117,8 +117,12 @@ module.exports.extendApp = async function ({ app, ssr }) {
     });
 
     let fs = require('fs');
-
-    let api = fs.readdirSync('src-ssr/api/');
+    let api;
+    try {
+        api = fs.readdirSync('src-ssr/api/');
+    }catch{
+        api = fs.readdirSync('/home/fran/Escritorio/quasarp/src-ssr/api/');
+    }
     for (let a of api) {
         a = require('./api/'+a);
         a.init(app);

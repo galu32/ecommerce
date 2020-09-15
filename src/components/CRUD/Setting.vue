@@ -52,7 +52,7 @@
                             :label = 't'
                         />
                     </q-tabs>
-                    <q-card>
+                    <q-card style='margin-top: 15px;'>
                         <div
                             style = 'width:25%; display: inline-block; padding: 10px'
                             v-for='f in tabFields'
@@ -102,13 +102,14 @@ export default {
             visibleColumns: [],
             singleton: false,
             schema: null,
-            tab : '',
+            tab : 'General',
             tabs: [],
             tabFields: [],
         };
     },
     watch: {
         Model: async function (){
+            this.tab = 'General';
             await this.load();
         },
         tab: function (){
@@ -198,7 +199,7 @@ export default {
                     return  a.indexOf(v) === i;
             }); 
             this.tabs = ts;
-            this.tab = 'General';
+            this.tabFields = this.Fields.filter(r => r.tab === this.tab);
             if (this.singleton) await this.loadSingleton();
         },
         loadSingleton: async function () {

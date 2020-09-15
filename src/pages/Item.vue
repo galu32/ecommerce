@@ -3,11 +3,39 @@
         <!-- <q-scroll-area
             style="height: 85vh; width: 100%;"
             class="bg-grey-1 rounded-borders"> -->
-        <q-img
+        <div class='row' style=''>
+            <q-carousel
+                v-model="slide"
+                transition-prev="scale"
+                transition-next="scale"
+                swipeable
+                animated
+                control-color="white"
+                navigation
+                arrows
+                style='width:60%;margin:30px;'
+                height="73vh"
+                class="bg-white text-white shadow-1 rounded-borders"
+            >
+                <q-carousel-slide name="style" class="column no-wrap flex-center">
+                    <q-img :src='Item.Image' style='width:100%'/>
+                </q-carousel-slide>
+                <q-carousel-slide name="3" class="column no-wrap flex-center">
+                    <q-img :src='Item.Image' style='width:100%'/>
+                </q-carousel-slide>
+                <q-carousel-slide name="2" class="column no-wrap flex-center">
+                    <q-img :src='Item.Image' style='width:100%'/>
+                </q-carousel-slide>
+                <q-carousel-slide name="1" class="column no-wrap flex-center">
+                    <q-img :src='Item.Image' style='width:100%'/>
+                </q-carousel-slide>
+            </q-carousel>
+            <!-- <q-img
             style="height: 73vh ; width:60%; margin:30px;"
             :src='Item.Image'
-        />
-        <ItemCard v-bind=Item />
+        /> -->
+            <ItemCard v-bind=Item style='width:35%;'/>
+        </div>
         <!-- </q-scroll-area> -->
     </q-page>
 </template>
@@ -20,6 +48,7 @@ export default {
     data() {
         return {
             Item: null,
+            slide: 'style'
         };
     },
     async mounted() {
