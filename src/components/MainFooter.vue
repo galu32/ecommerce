@@ -1,13 +1,25 @@
 <template>
     <q-footer v-if='HomeOptions.ShowFooter' reveal elevated>
-        <div class="container" style='height:70px;'>
+        <div class="container" style='height:100px;'>
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="white-text" style='margin:25px;'>Footer Content</h5>
-                    <!-- <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p> -->
+                    <h5 class="white-text" style='margin:10px;'>Navigation</h5>
+                    <div style ='margin-left:20px;'> 
+                        <q-btn flat dense round icon="mdi-home" to ='/' />
+                        <q-btn flat dense round icon="mdi-mail" to ='/contact' />
+                    </div>
                 </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 style='margin:25px;' class="white-text">Links....</h5>
+                <div class="col l6 s12">
+                    <h5 class="white-text" style='margin:10px;'>Social</h5>
+                    <!-- <router-link to='/' style = ' width: 100%;' class='text-white'> -->
+                    <q-btn flat dense round icon="facebook" />
+                    <q-btn flat dense round icon="mdi-twitter" />
+                    <q-btn flat dense round icon="mdi-instagram" />
+                    <!-- </router-link> -->
+                    <!-- <router-link to='/' class='text-white' style = ' width: 100%;'> -->
+                    <!-- <q-btn class="gt-xs" size="12px" flat dense round icon="whatsapp" @click='deleteCart' /> -->
+                    <!-- </router-link> -->
+                    <!-- <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p> -->
                 </div>
             </div>
         </div>
@@ -15,7 +27,9 @@
 </template>
 
 <script>
+
 export default {
+    
     props: {
     },
     name: 'MainFooter',

@@ -146,6 +146,7 @@ export default {
             let res = await model.save();
             console.log(res);
             if (res.status && res.res.errno) return this.$errorResponse(res.res.sqlMessage);
+            if (res.status && res.res.affectedRows) this.$response('Save ok!');
             await this.load();
         },
         deleteRow: async function () {

@@ -26,6 +26,8 @@ let t = `
             v-else
             :content-inset-level="1"
             expand-separator
+            dense-toggle
+            expand-icon-class = 'text-primary'
             :icon="Icon"
             :label="Name"
             :caption="Description"

@@ -1,13 +1,13 @@
 let t = 
 `
     <div class="q-pa-md">
-<q-item-label
+<!-- <q-item-label
     header
     class="text-grey text-center"
     style="font-size: 25px"
 >
     {{title}}
-    </q-item-label>
+    </q-item-label> -->
 <q-separator />
         <q-scroll-area
             horizontal

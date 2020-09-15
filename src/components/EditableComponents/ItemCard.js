@@ -1,10 +1,10 @@
 
-let t = `<q-card style = 'display:inline-block; width: 35%; margin-top: 30px; height:650px;' >
+let t = `<q-card style = 'display:inline-block; width: 35%; margin-top: 30px;' >
 <div class='text-h3 text-primary' style='margin:15px'> {{Name}} </div>
 <q-separator />
     <q-scroll-area
     vertical
-    style="height: 580px; width: 100%; "
+    style="height: 500px; width: 100%; "
     class="bg-grey-1 rounded-borders"
     >
     <div class='text-h5 text-grey' style='margin:15px;'> {{Description}} </div>

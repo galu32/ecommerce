@@ -15,29 +15,23 @@
                     height="430px"
                     class="bg-primary text-white shadow-1 rounded-borders"
                 >
-                    <q-carousel-slide name="style" class="column no-wrap flex-center">
-                        <q-img :src=HomeOptions.HeaderImage style='width:100%'/>
-                    </q-carousel-slide>
-                    <q-carousel-slide name="3" class="column no-wrap flex-center">
-                        <q-img :src=HomeOptions.HeaderImage style='width:100%'/>
-                    </q-carousel-slide>
-                    <q-carousel-slide name="2" class="column no-wrap flex-center">
-                        <q-img :src=HomeOptions.HeaderImage style='width:100%'/>
-                    </q-carousel-slide>
-                    <q-carousel-slide name="1" class="column no-wrap flex-center">
-                        <q-img :src=HomeOptions.HeaderImage style='width:100%'/>
+                    <q-carousel-slide 
+                        v-for='i in images'
+                        :key = 'i'
+                        :name="i" class="column no-wrap flex-center">
+                        <q-img :src='i' style='width:100%'/>
                     </q-carousel-slide>
                 </q-carousel>
             </div>
         </div>
 
-        <MainItems style='padding:15px;'/>
-        <q-separator />
+        <MainItems/>
+        <!-- <q-separator /> -->
         <!-- <q-img :src=HeaderImage style='height: 400px' />
             <MainItems/> -->
         <!-- </q-scroll-area> -->
         <q-page-sticky v-if='HomeOptions.ShowContactButton' position="bottom-right" style='margin:10px;' :offset="[18, 18]">
-            <q-btn fab icon='mail' color="primary" />
+            <q-btn fab icon='mdi-whatsapp' color="primary" />
         </q-page-sticky>
     </q-page>
 
@@ -56,7 +50,8 @@ export default {
     data() {
         return {
             HomeOptions: {},
-            slide: 'style',
+            slide: '',
+            images: [],
             lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
  
             // Inited: false
@@ -64,6 +59,8 @@ export default {
     },
     async mounted() {
         this.HomeOptions = this.$store.state.home[0];
+        this.slide = this.HomeOptions.HeaderImage ? this.HomeOptions.HeaderImage.split(",")[0] : '';
+        this.images = this.HomeOptions.HeaderImage ? this.HomeOptions.HeaderImage.split(",") : [];
         let self = this;
         // setTimeout(() =>  self.Inited = true, 3000);
         // let q = this.$query;
@@ -73,3 +70,6 @@ export default {
     }
 };
 </script>
+
+<style>
+</style>

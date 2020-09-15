@@ -11,6 +11,7 @@ export default {
 <style>
 body {
   font-family: "Kufam", Helvetica, Arial, sans-serif;
+  margin:0 auto;
 }
 
 </style>
