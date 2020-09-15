@@ -4,6 +4,7 @@
         <div class="q-pa-md">
             <div class="q-gutter-md">
                 <q-carousel
+                    ref = 'carousel'
                     v-model="slide"
                     transition-prev="scale"
                     transition-next="scale"
@@ -30,7 +31,7 @@
         <!-- <q-img :src=HeaderImage style='height: 400px' />
             <MainItems/> -->
         <!-- </q-scroll-area> -->
-        <q-page-sticky v-if='HomeOptions.ShowContactButton' position="bottom-right" style='margin:10px;' :offset="[18, 18]">
+        <q-page-sticky v-if='HomeOptions.ShowContactButton' position="bottom-right" :offset="[30, -55]">
             <q-btn fab icon='mdi-whatsapp' color="primary" />
         </q-page-sticky>
     </q-page>
@@ -59,14 +60,20 @@ export default {
     },
     async mounted() {
         this.HomeOptions = this.$store.state.home[0];
-        this.slide = this.HomeOptions.HeaderImage ? this.HomeOptions.HeaderImage.split(",")[0] : '';
+        // this.slide = this.HomeOptions.HeaderImage ? this.HomeOptions.HeaderImage.split(",")[0] : '';
         this.images = this.HomeOptions.HeaderImage ? this.HomeOptions.HeaderImage.split(",") : [];
         let self = this;
-        // setTimeout(() =>  self.Inited = true, 3000);
-        // let q = this.$query;
-        // q = await q.select(["*"]).from('Item').fetch()
-        // this.$resourcecs = await this.$axios.post('/fetch_resources')
+        if (this.images.length){
+            setInterval(() => self.autoSlide(), 5000);
+            this.slide = this.images[0];
+        }
     
+    },
+    methods: {
+        autoSlide: function () {
+            if (this.images[this.images.length - 1] === this.slide) this.slide = this.images[0];
+            else this.$refs.carousel.next();
+        }
     }
 };
 </script>

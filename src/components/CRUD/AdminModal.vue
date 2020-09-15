@@ -7,16 +7,16 @@
             class="bg-primary text-white shadow-2"
             :breakpoint="0"
         >
-            <q-tab name="Home" icon="home" />
-            <q-tab name="Items" icon="smartphone" />
-            <q-tab name="Users" icon="person" />
-            <q-tab name="Categories" icon="collections" />
-            <q-tab name="SubCategories" icon="collections_bookmark" />
-            <q-tab name="Coupon" icon="credit_card" />
-            <q-tab name="PayMethod" icon="payment" />
-            <q-tab name="ShipMethod" icon="local_shipping" />
-            <q-tab name="EditableComponents" icon="settings_input_component" />
-            <q-tab name="MailSettings" icon="mail" />
+            <q-tab name="Home" icon="home" label='Home' />
+            <q-tab name="Items" icon="smartphone" label='Items' />
+            <q-tab name="Users" icon="person" label='Users' />
+            <q-tab name="Categories" icon="collections" label='Categories' />
+            <q-tab name="SubCategories" icon="collections_bookmark" label='Sub-Categories' />
+            <q-tab name="Coupon" icon="credit_card" label='Coupons' />
+            <q-tab name="PayMethod" icon="payment" label='Pay Methods' />
+            <q-tab name="ShipMethod" icon="local_shipping" label='Ship Methods' />
+            <q-tab name="EditableComponents" icon="settings_input_component" label='Components' />
+            <q-tab name="MailSettings" icon="mail" label='Mailing' />
 
         </q-tabs>
         <q-card v-if='tab === "Home"'>

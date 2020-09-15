@@ -95,14 +95,13 @@
                 </q-item>
                 <q-separator />
             </q-list>
-            <q-item-label
+            <!-- <q-item-label
                 header
                 class="text-primary"
             >
                 Categorias:
-                <!-- <q-separator /> -->
-            </q-item-label>
-            <q-separator />
+            </q-item-label> -->
+            <!-- <q-separator /> -->
             <CategoryItem
                 v-for="link in essentialLinks"
                 :key="link.Name"

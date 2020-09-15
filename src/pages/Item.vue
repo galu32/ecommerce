@@ -13,9 +13,9 @@
                 control-color="white"
                 navigation
                 arrows
-                style='width:60%;margin:30px;'
+                style='width:60%;margin:30px; margin-bottom:0px;'
                 height="73vh"
-                class="bg-white text-white shadow-1 rounded-borders"
+                class="bg-primary text-white shadow-1 rounded-borders"
             >
                 <q-carousel-slide 
                     v-for = 'i in Images'
@@ -24,10 +24,6 @@
                     <q-img :src='i' style='width:100%'/>
                 </q-carousel-slide>
             </q-carousel>
-            <!-- <q-img
-            style="height: 73vh ; width:60%; margin:30px;"
-            :src='Item.Image'
-        /> -->
             <ItemCard v-bind=Item style='width:35%;'/>
         </div>
         <!-- </q-scroll-area> -->

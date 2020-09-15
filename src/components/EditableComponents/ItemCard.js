@@ -1,6 +1,6 @@
 
 let t = `<q-card style = 'display:inline-block; width: 35%; margin-top: 30px;' >
-<div class='text-h3 text-primary' style='margin:15px'> {{Name}} </div>
+<div class='text-h4 text-primary' style='margin:15px;'> {{Name}} </div>
 <q-separator />
     <q-scroll-area
     vertical

@@ -1,5 +1,5 @@
 
-let t = `<q-card style='' to='/'>
+let t = `<q-card style='' to='/' >
     <q-card-section horizontal>
         <router-link :to=getPath() style = ' width: 100%;'>
             <q-img

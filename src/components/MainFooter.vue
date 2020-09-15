@@ -1,6 +1,6 @@
 <template>
     <q-footer v-if='HomeOptions.ShowFooter' reveal elevated>
-        <div class="container" style='height:100px;'>
+        <div class="" style='height:100px;'>
             <div class="row">
                 <div class="col l6 s12">
                     <h5 class="white-text" style='margin:10px;'>Navigation</h5>
@@ -11,16 +11,15 @@
                 </div>
                 <div class="col l6 s12">
                     <h5 class="white-text" style='margin:10px;'>Social</h5>
-                    <!-- <router-link to='/' style = ' width: 100%;' class='text-white'> -->
                     <q-btn flat dense round icon="facebook" />
                     <q-btn flat dense round icon="mdi-twitter" />
                     <q-btn flat dense round icon="mdi-instagram" />
-                    <!-- </router-link> -->
-                    <!-- <router-link to='/' class='text-white' style = ' width: 100%;'> -->
-                    <!-- <q-btn class="gt-xs" size="12px" flat dense round icon="whatsapp" @click='deleteCart' /> -->
-                    <!-- </router-link> -->
-                    <!-- <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p> -->
                 </div>
+                <!-- <div class="col l6 s12">
+                    <h5 class="white-text" style='margin:10px;'>Language</h5>
+                    <q-btn flat dense round icon="mdi-english" />
+                    <q-btn flat dense round icon="mdi-spanish" />
+                </div> -->
             </div>
         </div>
     </q-footer>
